@@ -1,5 +1,3 @@
-# trivia-maze
-
 # Trivia Maze
 Create a maze that a player must navigate through from entrance to exit.  The maze is composed of rooms.  Each room has 1 or more doors (the design is up to you).  In order for the user to pass through a door, s/he must correctly answer a question.  
 
