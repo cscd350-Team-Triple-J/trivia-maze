@@ -29,39 +29,27 @@ public class QuestionGetterTests {
 	public void before() {
 		Connection mockDBCon = null;
 		Statement s = null;
-		String sql = "CREATE TABLE Questions(\n" + "   ID int PRIMARY KEY,\n" + "   Type text,\n" + "   Question text\n"
-				+ ");";
+		String sql = "CREATE TABLE Questions(\n" + "   ID int PRIMARY KEY,\n" + "   Type text,\n" + "   Question text,\n"
+				+ "   CorrectAnswer text\n" + ");";
 		try {
 			Class.forName("org.sqlite.JDBC");
 			mockDBCon = DriverManager.getConnection(url);
 			s = mockDBCon.createStatement();
 			s.executeUpdate(sql);
-			sql = "INSERT INTO Questions (ID,Type,Question)\n" + "VALUES (1,'TF','TQuestion1?');";
+			sql = "INSERT INTO Questions (ID,Type,Question,CorrectAnswer)\n" + "VALUES (1,'TF','Question1?','T');";
 			s.executeUpdate(sql);
-			sql = "INSERT INTO Questions (ID,Type,Question)\n" + "VALUES (2,'SA','YesQuestion2?');";
+			sql = "INSERT INTO Questions (ID,Type,Question,CorrectAnswer)\n" + "VALUES (2,'SA','Question2?','YES');";
 			s.executeUpdate(sql);
-			sql = "INSERT INTO Questions (ID,Type,Question)\n" + "VALUES (3,'MC','4Question3?');";
+			sql = "INSERT INTO Questions (ID,Type,Question,CorrectAnswer)\n" + "VALUES (3,'MC','Question3?','4');";
 			s.executeUpdate(sql);
-			sql = "INSERT INTO Questions (ID,Type,Question)\n" + "VALUES (4,'SA','Noquestion4?');";
+			sql = "INSERT INTO Questions (ID,Type,Question,CorrectAnswer)\n" + "VALUES (4,'SA','question4?','NO');";
 			s.executeUpdate(sql);
-			sql = "INSERT INTO Questions (ID,Type,Question)\n" + "VALUES (5,'TF','Fquestion5?');";
-			s.executeUpdate(sql);
-			sql = "CREATE TABLE TrueFalse(\n" + "   ID int PRIMARY KEY,\n" + "   CorrectAnswer text\n" + ");";
-			s.executeUpdate(sql);
-			sql = "INSERT INTO TrueFalse (ID,CorrectAnswer)\n" + "VALUES (1,'T');";
-			s.executeUpdate(sql);
-			sql = "INSERT INTO TrueFalse (ID,CorrectAnswer)\n" + "VALUES (5,'F');";
-			s.executeUpdate(sql);
-			sql = "CREATE TABLE ShortAnswer(\n" + "   ID int PRIMARY KEY,\n" + "   CorrectAnswer text\n" + ");";
-			s.executeUpdate(sql);
-			sql = "INSERT INTO ShortAnswer (ID,CorrectAnswer)\n" + "VALUES (2,'Yes');";
-			s.executeUpdate(sql);
-			sql = "INSERT INTO ShortAnswer (ID,CorrectAnswer)\n" + "VALUES (4,'No');";
+			sql = "INSERT INTO Questions (ID,Type,Question,CorrectAnswer)\n" + "VALUES (5,'TF','question5?','F');";
 			s.executeUpdate(sql);
 			sql = "CREATE TABLE MultipleChoice(\n" + "   ID int PRIMARY KEY,\n" + "   Option1 text,\n"
-					+ "   Option2 text,\n" + "   Option3 text,\n" + "   Option4 text\n" + ");";
+					+ "   Option2 text,\n" + "   Option3 text\n" + ");";
 			s.executeUpdate(sql);
-			sql = "INSERT INTO MultipleChoice (ID,Option1,Option2,Option3,Option4)\n" + "VALUES (3,'1','2','3','4');";
+			sql = "INSERT INTO MultipleChoice (ID,Option1,Option2,Option3)\n" + "VALUES (3,'1','2','3');";
 			s.executeUpdate(sql);
 			sql = "CREATE TABLE QuestionComments(\n" + "   ID int PRIMARY KEY,\n" + "   CommentWrong text,\n"
 					+ "    CommentRight text" + ");";
