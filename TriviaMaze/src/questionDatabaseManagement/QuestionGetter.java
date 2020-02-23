@@ -1,4 +1,4 @@
-package databaseManagement;
+package questionDatabaseManagement;
 
 import java.sql.*;
 
@@ -8,10 +8,10 @@ public class QuestionGetter {
 
 	public QuestionGetter(String url) {
 		db = new Database(url);
-		questionCount = getQuestionCountInternal();
+		questionCount = getQuestionCountInitital();
 	}
 
-	private int getQuestionCountInternal() {
+	private int getQuestionCountInitital() {
 		Connection con = db.getConnection();
 		PreparedStatement ps = null;
 		ResultSet rs = null;

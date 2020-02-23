@@ -1,10 +1,11 @@
-package databaseManagement.tests;
+package questionDatabaseManagement.tests;
 
 import java.sql.*;
 import static org.junit.Assert.assertEquals;
 import java.io.*;
 import org.junit.*;
-import databaseManagement.QuestionGetter;
+
+import questionDatabaseManagement.QuestionGetter;
 
 public class QuestionGetterTests {
 

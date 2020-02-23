@@ -1,9 +1,10 @@
-package databaseManagement.tests;
+package questionDatabaseManagement.tests;
 
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.jupiter.api.Test;
-import databaseManagement.Database;
+
+import questionDatabaseManagement.Database;
 
 public class DatabaseTests {
 	@Test
