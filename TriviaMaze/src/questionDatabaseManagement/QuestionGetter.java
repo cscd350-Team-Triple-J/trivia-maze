@@ -1,27 +1,31 @@
 package questionDatabaseManagement;
 
 import java.sql.*;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 public class QuestionGetter {
 	private Database db;
 	private int questionCount;
 	private Queue<Question> questions;
+	private LinkedList<Question> usedQuestions;
 
 	public QuestionGetter(String url) {
 		db = new Database(url);
 		questionCount = getQuestionCountInitital();
-		questions = getQuestions();
+		questions = getQuestionsInternal();
 	}
 
-	private Queue<Question> getQuestions() {
-		Queue<Question> result = new LinkedList<Question>();
+	private Queue<Question> getQuestionsInternal() {
+		Question toBeShuffled[] = new Question[questionCount];
 		for (int i = 1; i <= questionCount; i++) {
 			Connection con = db.getConnection();
 			Statement s = null;
 			try {
 				Class.forName("org.sqlite.JDBC");
+				s = con.createStatement();
 				String sql = "SELECT Question, Type, CorrectAnswer FROM Questions WHERE ID is " + i;
 				ResultSet rs = s.executeQuery(sql);
 				String type = rs.getString("Type");
@@ -38,16 +42,27 @@ public class QuestionGetter {
 					String option1 = rs.getString("Option1");
 					String option2 = rs.getString("Option2");
 					String option3 = rs.getString("Option3");
-					result.add(new MultipleChoiceQuestion(type, question, correctAnswer, commentWrong, commentRight,
-							option1, option2, option3));
+					toBeShuffled[i - 1] = new MultipleChoiceQuestion(type, question, correctAnswer, commentWrong,
+							commentRight, option1, option2, option3);
 					break;
 				default:
-					result.add(new Question(type, question, correctAnswer, commentWrong, commentRight));
+					toBeShuffled[i - 1] = new Question(type, question, correctAnswer, commentWrong, commentRight);
 					break;
 				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
+		}
+		Random random = new Random();
+		for (int i = 0; i < toBeShuffled.length; i++) {
+			int randomPosition = random.nextInt(toBeShuffled.length);
+			Question temp = toBeShuffled[i];
+			toBeShuffled[i] = toBeShuffled[randomPosition];
+			toBeShuffled[randomPosition] = temp;
+		}
+		Queue<Question> result = new LinkedList<Question>();
+		for (int i = 0; i < toBeShuffled.length; i++) {
+			result.add(toBeShuffled[i]);
 		}
 		return result;
 	}
@@ -78,6 +93,17 @@ public class QuestionGetter {
 	}
 
 	public Question getQuestion() {
-		return questions.poll();
+		Question temp = questions.poll();
+		usedQuestions.add(temp);
+		if (questions.isEmpty()) {
+			Collections.shuffle(usedQuestions);
+			questions.addAll(usedQuestions);
+			usedQuestions.clear();
+		}
+		return temp;
+	}
+
+	public Queue<Question> getQuestions() {
+		return questions;
 	}
 }
