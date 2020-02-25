@@ -8,8 +8,11 @@ public class Maze {
 	private Location startLocation;
 	private Location endLocation;
 	
-	public Maze() {
-		
+	public Maze( Room[][] rooms, Location playerLocation, Location startLocation, Location endLocation ) {
+		this.rooms = rooms;
+		this.playerLocation = playerLocation;
+		this.startLocation = startLocation;
+		this.endLocation = endLocation;
 	}
 	
 	public void moveLeft() {
@@ -50,6 +53,10 @@ public class Maze {
 	public boolean isRoomLocked( int x, int y ) {
 		
 		return true;
+	}
+	
+	public Location getPlayerLocation() {
+		return this.playerLocation;
 	}
 	
 	
