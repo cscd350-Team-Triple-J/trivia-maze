@@ -62,5 +62,16 @@ class MazeTests {
 														() -> test.moveDown(),
 														"Moved out of the maze" );
 	}
+	
+	@Test
+	void testRoomExists() {
+		assertTrue( test.roomExists(0,0) );
+		assertTrue( test.roomExists(1,0) );
+		assertTrue( test.roomExists(0,1) );
+		assertTrue( test.roomExists(1,1) );
+		assertFalse( test.roomExists(2,0) );
+		assertFalse( test.roomExists(0,2) );
+		assertFalse( test.roomExists(2,2) );
+	}
 
 }
