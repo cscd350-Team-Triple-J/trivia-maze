@@ -124,6 +124,7 @@ public class QuestionGetterTests {
 		qg = new QuestionGetter(url);
 	}
 
+	@After
 	private void after() {
 		qg.getDB().closeConnection();
 		File file = new File("mockDB.db");
