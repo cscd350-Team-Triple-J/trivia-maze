@@ -6,7 +6,7 @@ public class Room {
 	private boolean isRoomLocked;
 	private BaseQuestion question;
 	
-	Room( BaseQuestion question ){
+	public Room( BaseQuestion question ){
 		this.question = question;
 	}
 	

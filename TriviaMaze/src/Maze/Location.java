@@ -10,6 +10,11 @@ public class Location {
 		this.yCoord = yCoord;
 	}
 	
+	public Location( Location loc ) {
+		this.xCoord = loc.getXCoord();
+		this.yCoord = loc.getYCoord();
+	}
+	
 	public int getXCoord() {
 		return this.xCoord;
 	}
@@ -18,9 +23,14 @@ public class Location {
 		return this.yCoord;
 	}
 	
-	public boolean isLocationSame( Location loc ) {
+	public Location getCurrentLocation() {
+		return new Location( this.xCoord, this.yCoord );
+	}
+	
+	@Override
+	public boolean equals( Object o ) {
 		boolean isSame = false;
-		if( this.xCoord == loc.getXCoord() && this.yCoord == loc.getYCoord() ) {
+		if( this.xCoord == ((Location) o).getXCoord() && this.yCoord == ((Location) o).getYCoord() ) {
 			isSame = true;
 		}
 		return isSame;
