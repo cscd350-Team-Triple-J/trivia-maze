@@ -54,11 +54,27 @@ public class Maze {
 	
 	
 	public void lockRoom( int x, int y ) {
-		
+		maze[x][y].lockRoom();
+	}
+	
+	public void lockRoom( Location loc ) {
+		maze[loc.getXCoord()][loc.getYCoord()].lockRoom();
+	}
+	
+	public void unlockRoom( int x, int y ) {
+		maze[x][y].unlockRoom();
+	}
+	
+	public void unlockRoom( Location loc ) {
+		maze[loc.getXCoord()][loc.getYCoord()].unlockRoom();
 	}
 	
 	public Room getRoom( Location loc ) {
 		return this.maze[loc.getXCoord()][loc.getYCoord()];
+	}
+	
+	public Room[][] getMaze(){
+		return this.maze;
 	}
 	
 	public BaseQuestion getRoomQuestion() {
@@ -82,18 +98,21 @@ public class Maze {
 	}
 	
 	public boolean roomExists( Location loc ) {
-		
+		try {
+			Room check = maze[loc.getXCoord()][loc.getYCoord()];
+		}
+		catch( IndexOutOfBoundsException e ){
+			return false;
+		}
 		return true;
 	}
 	
 	public boolean isRoomLocked( int x, int y ) {
-		
-		return true;
+		return maze[x][y].isRoomLocked();
 	}
 	
 	public boolean isRoomLocked( Location loc ) {
-		
-		return true;
+		return maze[loc.getXCoord()][loc.getYCoord()].isRoomLocked();
 	}
 	
 	public void setPlayerLocation( Location loc ) {

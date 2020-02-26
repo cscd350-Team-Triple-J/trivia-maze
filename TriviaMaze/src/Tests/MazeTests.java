@@ -9,6 +9,7 @@ import Maze.*;
 class MazeTests {
 
 	Maze test;
+	Room[][] maze;
 	Location mazeStart = new Location(0,0);
 	Location mazeEnd = new Location(1,1);
 	
@@ -16,6 +17,7 @@ class MazeTests {
 	@BeforeEach
 	void setUp() throws Exception {
 		test = new Maze( mazeStart, mazeEnd );
+		maze = test.getMaze();
 	}
 
 	@Test
@@ -64,11 +66,38 @@ class MazeTests {
 	}
 	
 	@Test
+	void testRoomLock() {
+		for( int i = 0; i < test.getMaze().length; i++ ) {
+			for( int j = 0; j < test.getMaze()[i].length; j++ ) {
+				assertTrue( test.isRoomLocked(i,j) ); // check rooms are default locked, as they're supposed to be
+				test.getMaze()[i][j].unlockRoom();
+				assertFalse( test.isRoomLocked(i,j) ); // unlock the rooms again
+				test.getMaze()[i][j].lockRoom();
+				assertTrue( test.isRoomLocked(i,j) ); // check that lock functionality works
+			}
+		}
+	}
+	
+	
+	@Test
+	void testRoomUnlock() {
+		for( int i = 0; i < maze.length; i++ ) {
+			for( int j = 0; j < maze[i].length; j++ ) {
+				assertTrue( test.isRoomLocked(i,j) ); // check rooms are default locked, as they're supposed to be
+				test.getMaze()[i][j].unlockRoom();
+				assertFalse( test.isRoomLocked(i,j) );
+			}
+		}
+	}
+	
+	@Test
 	void testRoomExists() {
-		assertTrue( test.roomExists(0,0) );
-		assertTrue( test.roomExists(1,0) );
-		assertTrue( test.roomExists(0,1) );
-		assertTrue( test.roomExists(1,1) );
+		for( int i = 0; i < maze.length; i++ ) {
+			for( int j = 0; j < maze[i].length; j++ ) {
+				assertTrue( test.roomExists(i,j) );
+			}
+		}
+		//test close bounds of 2x2
 		assertFalse( test.roomExists(2,0) );
 		assertFalse( test.roomExists(0,2) );
 		assertFalse( test.roomExists(2,2) );
