@@ -11,6 +11,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.*;
 import org.junit.*;
 
+import questionDatabaseManagement.MultipleChoiceQuestion;
 import questionDatabaseManagement.Question;
 import questionDatabaseManagement.QuestionGetter;
 
@@ -37,7 +38,7 @@ public class QuestionGetterTests {
 		// Arrange
 		Question[] questionsExpected = { new Question("TF", "Question1?", "T", "CommentWrong1", "CommentRight1"),
 				new Question("SA", "Question2?", "YES", "CommentWrong2", "CommentRight2"),
-				new Question("MC", "Question3?", "4", "CommentWrong3", "CommentRight3"),
+				new MultipleChoiceQuestion("MC", "Question3?", "4", "CommentWrong3", "CommentRight3", "3,1,2,3"),
 				new Question("SA", "Question4?", "NO", "CommentWrong4", "CommentRight4"),
 				new Question("TF", "Question5?", "F", "CommentWrong5", "CommentRight5") };
 
@@ -122,10 +123,9 @@ public class QuestionGetterTests {
 			s.executeUpdate(sql);
 			sql = "INSERT INTO Questions (ID,Type,Question,CorrectAnswer)\n" + "VALUES (5,'TF','Question5?','F');";
 			s.executeUpdate(sql);
-			sql = "CREATE TABLE MultipleChoice(\n" + "   ID int PRIMARY KEY,\n" + "   Option1 text,\n"
-					+ "   Option2 text,\n" + "   Option3 text\n" + ");";
+			sql = "CREATE TABLE MultipleChoice(\n" + "   ID int PRIMARY KEY,\n" + "    Options text\n" + ");";
 			s.executeUpdate(sql);
-			sql = "INSERT INTO MultipleChoice (ID,Option1,Option2,Option3)\n" + "VALUES (3,'1','2','3');";
+			sql = "INSERT INTO MultipleChoice (ID,Options)\n" + "VALUES (3,'3,1,2,3');";
 			s.executeUpdate(sql);
 			sql = "CREATE TABLE QuestionComments(\n" + "   ID int PRIMARY KEY,\n" + "   CommentWrong text,\n"
 					+ "    CommentRight text" + ");";
