@@ -38,13 +38,11 @@ public class QuestionGetter {
 				String commentRight = rs.getString("CommentRight");
 				switch (type) {
 				case "MC":
-					sql = "SELECT Option1,Option2,Option3 FROM MultipleChoice WHERE ID is " + i;
+					sql = "SELECT Options FROM MultipleChoice WHERE ID is " + i;
 					rs = s.executeQuery(sql);
-					String option1 = rs.getString("Option1");
-					String option2 = rs.getString("Option2");
-					String option3 = rs.getString("Option3");
+					String options = rs.getString("Options");
 					toBeShuffled[i - 1] = new MultipleChoiceQuestion(type, question, correctAnswer, commentWrong,
-							commentRight, option1, option2, option3);
+							commentRight, options);
 					break;
 				default:
 					toBeShuffled[i - 1] = new Question(type, question, correctAnswer, commentWrong, commentRight);
