@@ -1,9 +1,11 @@
 package questionDatabaseManagement.tests;
 
 import java.sql.*;
+import java.util.Arrays;
 import java.util.Queue;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.*;
@@ -61,6 +63,33 @@ public class QuestionGetterTests {
 
 		// Assert
 		assertTrue(flag1);
+	}
+
+	/**
+	 * As with any test of randomness, there is a slim change that the test doesn't
+	 * pass, if the questions are randomized in the same order.
+	 */
+	@Test
+	public void questionGetter_ShufflesEachTime() {
+		Question[] questions1 = new Question[qg.getQuestionCount()];
+		for (int i = 0; i < qg.getQuestionCount(); i++) {
+			questions1[i] = qg.getQuestion();
+		}
+		Question[] questions2 = new Question[qg.getQuestionCount()];
+		for (int i = 0; i < qg.getQuestionCount(); i++) {
+			questions2[i] = qg.getQuestion();
+		}
+		assertNotEquals(Arrays.toString(questions1), Arrays.toString(questions2));
+	}
+
+	/**
+	 * Will fail if getQuestion doesn't return a question.
+	 */
+	@Test
+	public void questionGetter_ReusesQuestions() {
+		for (int i = 0; i < qg.getQuestionCount() * 10; i++) {
+			qg.getQuestion();
+		}
 	}
 
 	private boolean questionsEqual(Question question1, Question question2) {
@@ -125,7 +154,7 @@ public class QuestionGetterTests {
 	}
 
 	@After
-	private void after() {
+	public void after() {
 		qg.getDB().closeConnection();
 		File file = new File("mockDB.db");
 		file.delete();

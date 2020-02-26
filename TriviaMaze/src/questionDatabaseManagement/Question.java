@@ -40,5 +40,4 @@ public class Question {
 		return "Question [type=" + type + ", question=" + question + ", correctAnswer=" + correctAnswer
 				+ ", commentWrong=" + commentWrong + ", commentRight=" + commentRight + "]";
 	}
-
 }

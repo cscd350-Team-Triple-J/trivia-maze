@@ -16,6 +16,7 @@ public class QuestionGetter {
 		db = new Database(url);
 		questionCount = getQuestionCountInitital();
 		questions = getQuestionsInternal();
+		usedQuestions = new LinkedList<Question>();
 	}
 
 	private Queue<Question> getQuestionsInternal() {
