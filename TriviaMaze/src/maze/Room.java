@@ -1,4 +1,4 @@
-package Maze;
+package maze;
 import Question.*;
 
 public class Room {
