@@ -14,11 +14,12 @@ public class Maze {
 	
 	// add int x, int y as params later to represent dimensions of the maze
 	public Maze( Location startLocation, Location endLocation ) {
+		qg = new QuestionGetter("jdbc:sqlite:Trivia Questions.db");
 		this.maze = generateMaze(2,2);
 		this.playerLocation = startLocation;
 		this.startLocation = startLocation;
-		qg = new QuestionGetter("jdbc:sqlite:Trivia Questions.db");
 		this.endLocation = endLocation;
+		
 	}
 	
 	//currently moving without regard to if room is locked or not
@@ -146,7 +147,7 @@ public class Maze {
 		Room[][] m = new Room[x][y];
 		for( int i = 0; i < x; i++ ) {
 			for(int j = 0; j < y; j++ ) {
-				
+				m[i][j] = new Room( qg.getQuestion() );
 			}
 		}
 		return m;

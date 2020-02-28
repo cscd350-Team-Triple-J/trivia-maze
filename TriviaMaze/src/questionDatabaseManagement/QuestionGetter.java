@@ -35,17 +35,17 @@ public class QuestionGetter {
 				sql = "SELECT CommentWrong, CommentCorrect FROM QuestionComments WHERE ID is " + i;
 				rs = s.executeQuery(sql);
 				String commentWrong = rs.getString("CommentWrong");
-				String CommentCorrect = rs.getString("CommentCorrect");
+				String commentCorrect = rs.getString("CommentCorrect");
 				switch (type) {
 				case "MC":
 					sql = "SELECT Options FROM MultipleChoice WHERE ID is " + i;
 					rs = s.executeQuery(sql);
 					String options = rs.getString("Options");
 					toBeShuffled[i - 1] = new MultipleChoiceQuestion(type, question, correctAnswer, commentWrong,
-							CommentCorrect, options);
+							commentCorrect, options);
 					break;
 				default:
-					toBeShuffled[i - 1] = new Question(type, question, correctAnswer, commentWrong, CommentCorrect);
+					toBeShuffled[i - 1] = new Question(type, question, correctAnswer, commentWrong, commentCorrect);
 					break;
 				}
 			} catch (Exception e) {
