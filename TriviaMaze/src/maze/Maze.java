@@ -1,5 +1,6 @@
 package maze;
 import Question.*;
+import questionDatabaseManagement.*;
 
 public class Maze {
 
@@ -8,11 +9,15 @@ public class Maze {
 	private Location startLocation;
 	private Location endLocation;
 	
+	// this is probably going to be in the triviamaze.ui and taken as param, but for now we will use one here.
+	private QuestionGetter qg;
+	
 	// add int x, int y as params later to represent dimensions of the maze
 	public Maze( Location startLocation, Location endLocation ) {
-		this.maze = generateMaze();
+		this.maze = generateMaze(2,2);
 		this.playerLocation = startLocation;
 		this.startLocation = startLocation;
+		qg = new QuestionGetter("jdbc:sqlite:Trivia Questions.db");
 		this.endLocation = endLocation;
 	}
 	
@@ -124,8 +129,8 @@ public class Maze {
 	}
 	
 	
-	private Room[][] generateMaze(){ // will edit later to have int x, int y as dimension params
-		BaseQuestion q1 = new MultipleChoiceQuestion("Who was the main villain in FF7?", 
+	private Room[][] generateMaze(int x, int y){ // will edit later to have int x, int y as dimension params
+		/*BaseQuestion q1 = new MultipleChoiceQuestion("Who was the main villain in FF7?", 
 													 "Sephiroth",
 													 new String[]{"Sephiroth", "Cloud", "Aerith", "Ultima"} );
 		BaseQuestion q2 = new MultipleChoiceQuestion("Who was the Hero in FF7?", 
@@ -137,7 +142,14 @@ public class Maze {
 		BaseQuestion q4 = new MultipleChoiceQuestion("What is a magic spell in FF7?", 
 													 "Ultima",
 													 new String[]{"Sephiroth", "Cloud", "Aerith", "Ultima"} );
-		return new Room[][] { {new Room(q1), new Room(q2)}, {new Room(q3), new Room(q3)} };
+		return new Room[][] { {new Room(q1), new Room(q2)}, {new Room(q3), new Room(q3)} };*/
+		Room[][] m = new Room[x][y];
+		for( int i = 0; i < x; i++ ) {
+			for(int j = 0; j < y; j++ ) {
+				
+			}
+		}
+		return m;
 	}
 	
 	
