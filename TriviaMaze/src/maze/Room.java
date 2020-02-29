@@ -1,5 +1,4 @@
 package maze;
-import Question.*;
 import questionDatabaseManagement.*;
 
 public class Room {

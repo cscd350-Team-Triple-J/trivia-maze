@@ -1,5 +1,4 @@
 package maze;
-import Question.*;
 import questionDatabaseManagement.*;
 
 public class Maze {
@@ -12,7 +11,13 @@ public class Maze {
 	// this is probably going to be in the triviamaze.ui and taken as param, but for now we will use one here.
 	private QuestionGetter qg;
 	
-	// add int x, int y as params later to represent dimensions of the maze
+	/**
+	 * Constructor that will hold a maze, start, and end location
+	 * @param x how many columns that will be in the maze
+	 * @param y how many rows that will be in the maze
+	 * @param startLocation Location that the player will start at
+	 * @param endLocation Location that the player will attempt to reach
+	 */
 	public Maze( int x, int y, Location startLocation, Location endLocation ) {
 		qg = new QuestionGetter("jdbc:sqlite:Trivia Questions.db");
 		this.maze = generateMaze(2,2);
@@ -22,11 +27,11 @@ public class Maze {
 		
 	}
 	
-	//currently moving without regard to if room is locked or not
-	// First, get our current location. Then iterate the row by +1 to simulate moving one space to the right
-	// playerLocation is also moved at the same time
-	// throws exception instead of catching so that error can be handled in Driver
-	// maybe combine all move methods into one, taking in 0-left, 1-right, 2-up, 3-down to reduce duplicate code
+	/**
+	 * Will move the player from their current location in whichever direction is selected
+	 * @param dir the direction in which the player will attempt to travel
+	 * @throws IndexOutOfBoundsException if player goes out of bounds of the maze
+	 */
 	public void move( String dir ) throws IndexOutOfBoundsException {
 		Location currLocation = this.playerLocation;
 		Location goTo = null;
@@ -53,66 +58,72 @@ public class Maze {
 		playerLocation = goTo;
 	}
 	
-	/*public void moveLeft() throws IndexOutOfBoundsException {
-		Location currLocation = this.playerLocation;
-		Location goTo = new Location(currLocation.getXCoord()-1,currLocation.getYCoord());
-		Room movingTo = this.maze[currLocation.getXCoord()-1][currLocation.getYCoord()];
-		playerLocation = goTo;
-	}
-	
-	//currently moving without regard to if room is locked or not
-	public void moveRight() throws IndexOutOfBoundsException {
-		Location currLocation = this.playerLocation;
-		Location goTo = new Location(currLocation.getXCoord()+1,currLocation.getYCoord());
-		Room movedTo = this.maze[currLocation.getXCoord()+1][currLocation.getYCoord()];
-		playerLocation = goTo;
-	}
-	
-	//currently moving without regard to if room is locked or not
-	public void moveUp() throws IndexOutOfBoundsException {
-		Location currLocation = this.playerLocation;
-		Location goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()-1);
-		Room movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()-1];
-		playerLocation = goTo;
-	}
-	
-	//currently moving without regard to if room is locked or not
-	public void moveDown() throws IndexOutOfBoundsException {
-		Location currLocation = this.playerLocation;
-		Location goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()+1);
-		Room movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()+1];
-		playerLocation = goTo;
-	}
-	*/
-	
+	/**
+	 * Will lock a room using specific coordinates
+	 * @param x x-coordinate of the room to lock
+	 * @param y y-coordinate of the room to lock
+	 */
 	public void lockRoom( int x, int y ) {
 		maze[x][y].lockRoom();
 	}
 	
+	/**
+	 * Will lock a room using specified Location
+	 * @param loc Location of the room to be locked
+	 */
 	public void lockRoom( Location loc ) {
 		maze[loc.getXCoord()][loc.getYCoord()].lockRoom();
 	}
 	
+	/**
+	 * Will unlock a room using specific coordinates
+	 * @param x x-coordinate of the room to unlock
+	 * @param y y-coordinate of the room to unlock
+	 */
 	public void unlockRoom( int x, int y ) {
 		maze[x][y].unlockRoom();
 	}
 	
+	/**
+	 * Will unlock a room using specified Location
+	 * @param loc Location of the room to be unlocked
+	 */
 	public void unlockRoom( Location loc ) {
 		maze[loc.getXCoord()][loc.getYCoord()].unlockRoom();
 	}
 	
+	/**
+	 * Gets the room at specified location
+	 * @param loc Location of room to get
+	 * @return room from the maze
+	 */
 	public Room getRoom( Location loc ) {
 		return this.maze[loc.getXCoord()][loc.getYCoord()];
 	}
 	
+	/**
+	 * Gets the maze from the Maze object
+	 * @return Room[][] maze that holds all rooms
+	 */
 	public Room[][] getMaze(){
 		return this.maze;
 	}
 	
+	/**
+	 * Gets the question in specified room
+	 * @param room room with the question we want
+	 * @return Question from the specified room
+	 */
 	public Question getRoomQuestion( Room room ) {
 		return room.getQuestion();
 	}
 	
+	/**
+	 * Gets the question from specified coordinates
+	 * @param x x-coordinate of question we want
+	 * @param y y-coordinate of question we want
+	 * @return The specified question from the room
+	 */
 	public Question getRoomQuestion( int x, int y ) {
 		return this.maze[x][y].getQuestion();
 	}
@@ -122,6 +133,12 @@ public class Maze {
 		return true;
 	}
 	
+	/**
+	 * Checks if a room exists at specified coordinates
+	 * @param x x-coordinate of room to check
+	 * @param y y-coordinate of room to check
+	 * @return boolean value that specifies if room exists
+	 */
 	public boolean roomExists( int x, int y ) {
 		try {
 			Room check = maze[x][y];
@@ -132,6 +149,11 @@ public class Maze {
 		return true;
 	}
 	
+	/**
+	 * Checks if a room exists at specified Location
+	 * @param loc Location of the room we want to check
+	 * @return boolean value that specifies if room exists
+	 */
 	public boolean roomExists( Location loc ) {
 		try {
 			Room check = maze[loc.getXCoord()][loc.getYCoord()];
@@ -142,23 +164,47 @@ public class Maze {
 		return true;
 	}
 	
+	/**
+	 * Checks if a room is locked at specified coordinates
+	 * @param x x-coordinate of room to check
+	 * @param y y-coordinate of room to check
+	 * @return boolean value that specifies if the room is locked
+	 */
 	public boolean isRoomLocked( int x, int y ) {
 		return maze[x][y].isRoomLocked();
 	}
 	
+	/**
+	 * Checks if a room is locked at specified Location
+	 * @param loc Location of the room we want to check
+	 * @return boolean value that specifies if the room is locked
+	 */
 	public boolean isRoomLocked( Location loc ) {
 		return maze[loc.getXCoord()][loc.getYCoord()].isRoomLocked();
 	}
 	
+	/**
+	 * Sets the player location to a specified location
+	 * @param loc Location at which to set player location
+	 */
 	public void setPlayerLocation( Location loc ) {
 		this.playerLocation = loc;
 	}
 
+	/**
+	 * Gets the current player location
+	 * @return current player location
+	 */
 	public Location getPlayerLocation() {
 		return this.playerLocation;
 	}
 	
-	
+	/**
+	 * Generates a Room[][] that will represent the maze, and will add a question into the room as they're created
+	 * @param x how many columns that will be in the maze
+	 * @param y how many rows that will be in the maze
+	 * @return a Room[][] representing a maze
+	 */
 	private Room[][] generateMaze(int x, int y){
 		Room[][] m = new Room[x][y];
 		for( int i = 0; i < x; i++ ) {
