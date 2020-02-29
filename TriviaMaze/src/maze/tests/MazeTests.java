@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import maze.*;
+import questionDatabaseManagement.Question;
 
 class MazeTests {
 
@@ -16,7 +17,7 @@ class MazeTests {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		test = new Maze( mazeStart, mazeEnd );
+		test = new Maze( 2,2, mazeStart, mazeEnd );
 		maze = test.getMaze();
 	}
 
@@ -101,6 +102,22 @@ class MazeTests {
 		assertFalse( test.roomExists(2,0) );
 		assertFalse( test.roomExists(0,2) );
 		assertFalse( test.roomExists(2,2) );
+	}
+	
+	@Test
+	void testGetRoomQuestion() {
+		Room rm = maze[0][0];
+		Room rm1 = maze[1][0];
+		Room rm2 = maze[0][1];
+		Room rm3 = maze[1][1];
+		assertTrue( rm.getQuestion().equals(test.getRoomQuestion(0, 0)) );
+		assertTrue( rm1.getQuestion().equals(test.getRoomQuestion(1, 0)) );
+		assertTrue( rm2.getQuestion().equals(test.getRoomQuestion(0, 1)) );
+		assertTrue( rm3.getQuestion().equals(test.getRoomQuestion(1, 1)) );
+		assertTrue( rm.getQuestion().equals( test.getRoomQuestion(rm)) );
+		assertTrue( rm1.getQuestion().equals(test.getRoomQuestion(rm1)) );
+		assertTrue( rm2.getQuestion().equals(test.getRoomQuestion(rm2)) );
+		assertTrue( rm3.getQuestion().equals(test.getRoomQuestion(rm3)) );
 	}
 
 }

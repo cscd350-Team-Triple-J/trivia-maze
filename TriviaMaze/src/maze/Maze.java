@@ -13,7 +13,7 @@ public class Maze {
 	private QuestionGetter qg;
 	
 	// add int x, int y as params later to represent dimensions of the maze
-	public Maze( Location startLocation, Location endLocation ) {
+	public Maze( int x, int y, Location startLocation, Location endLocation ) {
 		qg = new QuestionGetter("jdbc:sqlite:Trivia Questions.db");
 		this.maze = generateMaze(2,2);
 		this.playerLocation = startLocation;
@@ -83,9 +83,12 @@ public class Maze {
 		return this.maze;
 	}
 	
-	public BaseQuestion getRoomQuestion() {
-		
-		return null;
+	public Question getRoomQuestion( Room room ) {
+		return room.getQuestion();
+	}
+	
+	public Question getRoomQuestion( int x, int y ) {
+		return this.maze[x][y].getQuestion();
 	}
 	
 	public boolean hasValidPathToEnd() {
@@ -130,20 +133,7 @@ public class Maze {
 	}
 	
 	
-	private Room[][] generateMaze(int x, int y){ // will edit later to have int x, int y as dimension params
-		/*BaseQuestion q1 = new MultipleChoiceQuestion("Who was the main villain in FF7?", 
-													 "Sephiroth",
-													 new String[]{"Sephiroth", "Cloud", "Aerith", "Ultima"} );
-		BaseQuestion q2 = new MultipleChoiceQuestion("Who was the Hero in FF7?", 
-													 "Cloud",
-													 new String[]{"Sephiroth", "Cloud", "Aerith", "Ultima"} );
-		BaseQuestion q3 = new MultipleChoiceQuestion("Who did the main villain in FF7 kill?", 
-													 "Aerith",
-													 new String[]{"Sephiroth", "Cloud", "Aerith", "Ultima"} );
-		BaseQuestion q4 = new MultipleChoiceQuestion("What is a magic spell in FF7?", 
-													 "Ultima",
-													 new String[]{"Sephiroth", "Cloud", "Aerith", "Ultima"} );
-		return new Room[][] { {new Room(q1), new Room(q2)}, {new Room(q3), new Room(q3)} };*/
+	private Room[][] generateMaze(int x, int y){
 		Room[][] m = new Room[x][y];
 		for( int i = 0; i < x; i++ ) {
 			for(int j = 0; j < y; j++ ) {
