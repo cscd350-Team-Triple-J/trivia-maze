@@ -27,7 +27,33 @@ public class Maze {
 	// playerLocation is also moved at the same time
 	// throws exception instead of catching so that error can be handled in Driver
 	// maybe combine all move methods into one, taking in 0-left, 1-right, 2-up, 3-down to reduce duplicate code
-	public void moveLeft() throws IndexOutOfBoundsException {
+	public void move( String dir ) throws IndexOutOfBoundsException {
+		Location currLocation = this.playerLocation;
+		Location goTo = null;
+		Room movedTo = null;
+		switch( dir ) {
+			case "up":
+				goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()-1);
+				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()-1];
+				break;
+			case "down":
+				goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()+1);
+				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()+1];
+				break;
+			case "left":
+				goTo = new Location(currLocation.getXCoord()-1,currLocation.getYCoord());
+				movedTo = this.maze[currLocation.getXCoord()-1][currLocation.getYCoord()];
+				break;
+				
+			case "right":
+				goTo = new Location(currLocation.getXCoord()+1,currLocation.getYCoord());
+				movedTo = this.maze[currLocation.getXCoord()+1][currLocation.getYCoord()];
+				break;
+		}
+		playerLocation = goTo;
+	}
+	
+	/*public void moveLeft() throws IndexOutOfBoundsException {
 		Location currLocation = this.playerLocation;
 		Location goTo = new Location(currLocation.getXCoord()-1,currLocation.getYCoord());
 		Room movingTo = this.maze[currLocation.getXCoord()-1][currLocation.getYCoord()];
@@ -46,7 +72,7 @@ public class Maze {
 	public void moveUp() throws IndexOutOfBoundsException {
 		Location currLocation = this.playerLocation;
 		Location goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()-1);
-		Room movedTo = this.maze[currLocation.getXCoord()+1][currLocation.getYCoord()-1];
+		Room movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()-1];
 		playerLocation = goTo;
 	}
 	
@@ -57,7 +83,7 @@ public class Maze {
 		Room movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()+1];
 		playerLocation = goTo;
 	}
-	
+	*/
 	
 	public void lockRoom( int x, int y ) {
 		maze[x][y].lockRoom();

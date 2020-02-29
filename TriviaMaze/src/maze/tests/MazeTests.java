@@ -30,39 +30,42 @@ class MazeTests {
 	
 	@Test
 	void testMoveRight() {
-		test.moveRight();
+		//test.moveRight();
+		test.move("right");
 		assertTrue( test.getPlayerLocation().equals( new Location(1,0)) );
 		IndexOutOfBoundsException thrown = assertThrows( IndexOutOfBoundsException.class,
-														() -> test.moveRight(),
+														() -> test.move("right"),
 														"Moved out of the maze" );
 	}
 	
 	@Test
 	void testMoveLeft() {
 		test.setPlayerLocation( new Location(1,0) );
-		test.moveLeft();
+		//test.moveLeft();
+		test.move("left");
 		assertTrue( test.getPlayerLocation().equals( new Location(0,0)) );
 		IndexOutOfBoundsException thrown = assertThrows( IndexOutOfBoundsException.class,
-														() -> test.moveLeft(),
+														() -> test.move("left"),
 														"Moved out of the maze" );
 	}
 	
 	@Test
 	void testMoveUp() {
 		test.setPlayerLocation( new Location(0,1) );
-		test.moveUp();
+		//test.moveUp();
+		test.move("up");
 		assertTrue( test.getPlayerLocation().equals( new Location(0,0)) );
 		IndexOutOfBoundsException thrown = assertThrows( IndexOutOfBoundsException.class,
-														() -> test.moveUp(),
+														() -> test.move("up"),
 														"Moved out of the maze" );
 	}
 	
 	@Test
 	void testMoveDown() {
-		test.moveDown();
+		test.move("down");
 		assertTrue( test.getPlayerLocation().equals( new Location(0,1)) );
 		IndexOutOfBoundsException thrown = assertThrows( IndexOutOfBoundsException.class,
-														() -> test.moveDown(),
+														() -> test.move("down"),
 														"Moved out of the maze" );
 	}
 	
