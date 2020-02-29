@@ -7,8 +7,6 @@ public class Maze {
 	private Location playerLocation;
 	private Location startLocation;
 	private Location endLocation;
-	
-	// this is probably going to be in the triviamaze.ui and taken as param, but for now we will use one here.
 	private QuestionGetter qg;
 	
 	/**
