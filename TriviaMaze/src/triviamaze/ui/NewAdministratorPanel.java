@@ -41,11 +41,23 @@ public class NewAdministratorPanel extends JPanel {
 		add(btnNewButton);
 	}
 	
-	private class CreateAdminAccountButton implements ActionListener{
+	ActionListener NewAdministratorPanel = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			// TODO Auto-generated method stub
-			JButton button = (JButton) event.getSource();
+			if (validateUsername() && validatePassword()) {
+				//add new administrator account to database
+			}
+			else {
+				//show error text
+			}
 		}
+	};
+	
+	private boolean validateUsername() {
+		return txtUsername.getText() != null || !txtUsername.getText().isEmpty();  
+	}
+	
+	private boolean validatePassword() {
+		return txtPassword.getText() == txtConfirmPassword.getText();
 	}
 }

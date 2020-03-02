@@ -22,5 +22,7 @@ public abstract class BaseQuestion {
 	public String[] getAnswerOptions() {
 		return this.answerOptions;
 	}
+	
+	public abstract String getQuestion();
 
 }
