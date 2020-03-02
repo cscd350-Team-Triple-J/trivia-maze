@@ -27,15 +27,6 @@ public class MultipleChoiceQuestion extends Question {
 		return array;
 	}
 
-	private String convertArrayToString(String[] array) {
-		String result = "";
-		result += array.length;
-		for (int i = 0; i < array.length; i++) {
-			result += "," + array[i];
-		}
-		return result;
-	}
-
 	@Override
 	public String toString() {
 		return super.toString() + " MultipleChoiceQuestion [options=" + Arrays.toString(options) + "]";
