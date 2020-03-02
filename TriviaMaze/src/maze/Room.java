@@ -1,18 +1,18 @@
-package Maze;
-import Question.*;
+package maze;
+import questionDatabaseManagement.*;
 
 public class Room {
 
 	private boolean isRoomLocked;
-	private BaseQuestion question;
+	private Question question;
 	
 	// Rooms start locked
-	public Room( BaseQuestion question ){
+	public Room( Question question ){
 		this.question = question;
 		isRoomLocked = true;
 	}
 	
-	public BaseQuestion getQuestion() {
+	public Question getQuestion() {
 		return this.question;
 	}
 	
