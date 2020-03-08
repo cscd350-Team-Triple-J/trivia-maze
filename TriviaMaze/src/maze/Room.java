@@ -4,12 +4,19 @@ import questionDatabaseManagement.*;
 public class Room {
 
 	private boolean isRoomLocked;
+	private boolean isRoomPermaLocked;
 	private Question question;
 	
-	// Rooms start locked
+	/**
+	 * Room constructor that holds a question and two boolean values.
+	 * Room will be checked to see if it is locked or permalocked before moving
+	 * the player forward
+	 * @param question Trivia question that player has to answer
+	 */
 	public Room( Question question ){
 		this.question = question;
 		isRoomLocked = true;
+		isRoomPermaLocked = false;
 	}
 	
 	public Question getQuestion() {
