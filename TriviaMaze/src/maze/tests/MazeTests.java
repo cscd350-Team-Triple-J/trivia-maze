@@ -70,6 +70,11 @@ class MazeTests {
 	}
 	
 	@Test
+	void testCheckSurroundingRooms() {
+		boolean[] arr = test.checkSurroundingRooms( new Location(0,0) );
+	}
+	
+	@Test
 	void testRoomLock() {
 		for( int i = 0; i < test.getMaze().length; i++ ) {
 			for( int j = 0; j < test.getMaze()[i].length; j++ ) {

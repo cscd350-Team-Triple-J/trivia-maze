@@ -56,6 +56,41 @@ public class Maze {
 	}
 	
 	/**
+	 * Will check all surrounding directly reachable rooms and will check if which ones are
+	 * in bounds of the maze, and which are out of bounds of the array
+	 * @param loc location of the room we are checking around
+	 * @return boolean array telling us if directions up, down, left, right are viable or not
+	 */
+	public boolean[] checkSurroundingRooms( Location loc ) {
+		//                   up     down   left  right
+		boolean[] doors = { false, false, false, false };
+		Room currRoom = getRoom(loc);
+		Location goTo = null;
+		Room movedTo = null;
+		/*switch( dir ) {
+			case UP:
+				goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()-1);
+				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()-1];
+				break;
+			case DOWN:
+				goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()+1);
+				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()+1];
+				break;
+			case LEFT:
+				goTo = new Location(currLocation.getXCoord()-1,currLocation.getYCoord());
+				movedTo = this.maze[currLocation.getXCoord()-1][currLocation.getYCoord()];
+				break;
+				
+			case RIGHT:
+				goTo = new Location(currLocation.getXCoord()+1,currLocation.getYCoord());
+				movedTo = this.maze[currLocation.getXCoord()+1][currLocation.getYCoord()];
+				break;
+		}*/
+		playerLocation = goTo;
+		return doors;
+	}
+	
+	/**
 	 * Will lock a room using specific coordinates
 	 * @param x x-coordinate of the room to lock
 	 * @param y y-coordinate of the room to lock
@@ -206,7 +241,7 @@ public class Maze {
 		Room[][] m = new Room[x][y];
 		for( int i = 0; i < x; i++ ) {
 			for(int j = 0; j < y; j++ ) {
-				m[i][j] = new Room( qg.getQuestion() );
+				m[i][j] = new Room( qg.getQuestion(), new Location(i,j) );
 			}
 		}
 		return m;
