@@ -22,7 +22,6 @@ public class Maze {
 		this.playerLocation = startLocation;
 		this.startLocation = startLocation;
 		this.endLocation = endLocation;
-		
 	}
 	
 	/**
@@ -30,25 +29,25 @@ public class Maze {
 	 * @param dir the direction in which the player will attempt to travel
 	 * @throws IndexOutOfBoundsException if player goes out of bounds of the maze
 	 */
-	public void move( String dir ) throws IndexOutOfBoundsException {
+	public void move( MovementDirection dir ) throws IndexOutOfBoundsException {
 		Location currLocation = this.playerLocation;
 		Location goTo = null;
 		Room movedTo = null;
 		switch( dir ) {
-			case "up":
+			case UP:
 				goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()-1);
 				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()-1];
 				break;
-			case "down":
+			case DOWN:
 				goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()+1);
 				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()+1];
 				break;
-			case "left":
+			case LEFT:
 				goTo = new Location(currLocation.getXCoord()-1,currLocation.getYCoord());
 				movedTo = this.maze[currLocation.getXCoord()-1][currLocation.getYCoord()];
 				break;
 				
-			case "right":
+			case RIGHT:
 				goTo = new Location(currLocation.getXCoord()+1,currLocation.getYCoord());
 				movedTo = this.maze[currLocation.getXCoord()+1][currLocation.getYCoord()];
 				break;
@@ -212,6 +211,7 @@ public class Maze {
 		}
 		return m;
 	}
+
 	
 	
 }
