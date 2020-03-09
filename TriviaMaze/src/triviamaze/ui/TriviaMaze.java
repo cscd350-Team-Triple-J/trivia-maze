@@ -3,6 +3,8 @@ package triviamaze.ui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JToolBar;
+import java.awt.BorderLayout;
 
 public class TriviaMaze {
 
@@ -28,7 +30,7 @@ public class TriviaMaze {
 	private void initialize() {
 		frame = new MainMenuPanel();
 		frame.setTitle("Trivia Maze");
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 600, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
