@@ -6,8 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 
-import Question.BaseQuestion;
-import Question.MultipleChoiceQuestion;
 import questionDatabaseManagement.Question;
 
 import javax.swing.JRadioButton;
@@ -22,8 +20,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import Maze.Location;
-import Maze.Maze;
+import maze.Location;
+import maze.Maze;
 
 public class GamePanel extends JPanel {
 	
@@ -45,7 +43,7 @@ public class GamePanel extends JPanel {
 	
 	public GamePanel() {
 		
-		maze = new Maze(new Location(0,0), new Location(4,4));
+		maze = new Maze(4,4,new Location(0,0), new Location(4,4));
 		
 		panelMaze = new MazePanel(maze);
 		panelMaze.setBounds(59, 60, 180, 180);

@@ -2,8 +2,8 @@ package triviamaze.ui;
 
 import javax.swing.JPanel;
 
-import Maze.Location;
-import Maze.Maze;
+import maze.Location;
+import maze.Maze;
 
 import javax.swing.JLabel;
 import javax.swing.Icon;
