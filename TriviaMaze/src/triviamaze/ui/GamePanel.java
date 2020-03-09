@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 
 import Question.BaseQuestion;
@@ -46,7 +47,6 @@ public class GamePanel extends JPanel {
 	public GamePanel() {
 		
 		maze = new Maze(new Location(0,0), new Location(4,4));
-		
 		panelMaze = new MazePanel(maze);
 		panelMaze.setBounds(59, 60, 180, 180);
 		add(panelMaze);
@@ -104,22 +104,41 @@ public class GamePanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			if (panelQuestion.IsAnswerCorrect()) {
-				Location newLocation;
+				Location oldLocation = maze.getPlayerLocation();
 				switch (currentDirection) {
 				case UP:
+					maze.moveUp();
 					break;
 				case DOWN:
+					maze.moveDown();
 					break;
 				case LEFT:
+					maze.moveLeft();
 					break;
 				case RIGHT:
+					maze.moveRight();
 					break;
 				default: 
-					newLocation = new Location(0,0);
+					break;
+				}
+				
+				panelMaze.setCurrentRoom(oldLocation, maze.getPlayerLocation());
+				
+				if (true) { //(maze.getPlayerLocation() && maze.getEndLocation)
+					JOptionPane.showConfirmDialog(panelMaze, "You win! Do you want to play again?");
 				}
 			}
 			else {
-				maze.hasValidPathToEnd();
+				if (maze.hasValidPathToEnd()){
+					//lock room player tried to move into
+				}
+				else {
+					//enter game over screen
+					int selection = JOptionPane.showConfirmDialog(panelMaze, "You have a vision that there is no way to the exit. You accept! Do you want to play again?");
+
+				}
+				
+			
 			}
 			
 			panelQuestion.setVisible(false);
@@ -128,6 +147,8 @@ public class GamePanel extends JPanel {
 			setEnabledMovementButtons(true);
 		}
 	};
+	
+
 	
 	ActionListener moveUpButton = new ActionListener() {
 		@Override
