@@ -7,8 +7,6 @@ public class Maze {
 	private Location playerLocation;
 	private Location startLocation;
 	private Location endLocation;
-	
-	// this is probably going to be in the triviamaze.ui and taken as param, but for now we will use one here.
 	private QuestionGetter qg;
 	
 	/**
@@ -24,7 +22,6 @@ public class Maze {
 		this.playerLocation = startLocation;
 		this.startLocation = startLocation;
 		this.endLocation = endLocation;
-		
 	}
 	
 	/**
@@ -32,30 +29,65 @@ public class Maze {
 	 * @param dir the direction in which the player will attempt to travel
 	 * @throws IndexOutOfBoundsException if player goes out of bounds of the maze
 	 */
-	public void move( String dir ) throws IndexOutOfBoundsException {
+	public void move( MovementDirection dir ) throws IndexOutOfBoundsException {
 		Location currLocation = this.playerLocation;
 		Location goTo = null;
 		Room movedTo = null;
 		switch( dir ) {
-			case "up":
+			case UP:
 				goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()-1);
 				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()-1];
 				break;
-			case "down":
+			case DOWN:
 				goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()+1);
 				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()+1];
 				break;
-			case "left":
+			case LEFT:
 				goTo = new Location(currLocation.getXCoord()-1,currLocation.getYCoord());
 				movedTo = this.maze[currLocation.getXCoord()-1][currLocation.getYCoord()];
 				break;
 				
-			case "right":
+			case RIGHT:
 				goTo = new Location(currLocation.getXCoord()+1,currLocation.getYCoord());
 				movedTo = this.maze[currLocation.getXCoord()+1][currLocation.getYCoord()];
 				break;
 		}
 		playerLocation = goTo;
+	}
+	
+	/**
+	 * Will check all surrounding directly reachable rooms and will check if which ones are
+	 * in bounds of the maze, and which are out of bounds of the array
+	 * @param loc location of the room we are checking around
+	 * @return boolean array telling us if directions up, down, left, right are viable or not
+	 */
+	public boolean[] checkSurroundingRooms( Location loc ) {
+		//                   up     down   left  right
+		boolean[] doors = { false, false, false, false };
+		Room currRoom = getRoom(loc);
+		Location goTo = null;
+		Room movedTo = null;
+		/*switch( dir ) {
+			case UP:
+				goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()-1);
+				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()-1];
+				break;
+			case DOWN:
+				goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()+1);
+				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()+1];
+				break;
+			case LEFT:
+				goTo = new Location(currLocation.getXCoord()-1,currLocation.getYCoord());
+				movedTo = this.maze[currLocation.getXCoord()-1][currLocation.getYCoord()];
+				break;
+				
+			case RIGHT:
+				goTo = new Location(currLocation.getXCoord()+1,currLocation.getYCoord());
+				movedTo = this.maze[currLocation.getXCoord()+1][currLocation.getYCoord()];
+				break;
+		}*/
+		playerLocation = goTo;
+		return doors;
 	}
 	
 	/**
@@ -209,11 +241,12 @@ public class Maze {
 		Room[][] m = new Room[x][y];
 		for( int i = 0; i < x; i++ ) {
 			for(int j = 0; j < y; j++ ) {
-				m[i][j] = new Room( qg.getQuestion() );
+				m[i][j] = new Room( qg.getQuestion(), new Location(i,j) );
 			}
 		}
 		return m;
 	}
+
 	
 	
 }
