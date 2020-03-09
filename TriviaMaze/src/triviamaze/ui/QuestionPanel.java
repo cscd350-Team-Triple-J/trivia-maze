@@ -80,7 +80,7 @@ public class QuestionPanel extends JPanel {
 		}
 	}
 	
-	public boolean IsAnswerCorrect() {
+	public boolean isAnswerCorrect() {
 		return correctAnswer == getSelectedAnswer();
 	}
 	
