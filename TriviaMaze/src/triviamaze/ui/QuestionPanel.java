@@ -4,10 +4,11 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextPane;
 
-import Question.BaseQuestion;
-
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
+
+import questionDatabaseManagement.MultipleChoiceQuestion;
+import questionDatabaseManagement.Question;
 
 public class QuestionPanel extends JPanel {
 
@@ -67,19 +68,19 @@ public class QuestionPanel extends JPanel {
 		
 	}
 	
-	public void initializeQuestionData(BaseQuestion q) {
+	public void initializeQuestionData(Question q) {
 		rdbtnsAnswers[0].setSelected(true);
 		txtpnQuestionText.setText(q.getQuestion());
 		correctAnswer = q.getCorrectAnswer();
 		
-		String[] answerOptions = q.getAnswerOptions();
+		String[] answerOptions = ((MultipleChoiceQuestion)q).getOptions();
 		for (int i = 0; i < answerOptions.length; i++) {
 			rdbtnsAnswers[i].setText(answerOptions[i]);
 			rdbtnsAnswers[i].setVisible(true);
 		}
 	}
 	
-	public boolean IsAnswerCorrect() {
+	public boolean isAnswerCorrect() {
 		return correctAnswer == getSelectedAnswer();
 	}
 	
