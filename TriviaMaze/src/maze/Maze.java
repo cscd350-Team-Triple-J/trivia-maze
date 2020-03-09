@@ -1,5 +1,6 @@
 package maze;
 import questionDatabaseManagement.*;
+import triviamaze.ui.Cheats;
 
 public class Maze {
 
@@ -17,8 +18,8 @@ public class Maze {
 	 * @param endLocation Location that the player will attempt to reach
 	 */
 	public Maze( int x, int y, Location startLocation, Location endLocation ) {
-		qg = new QuestionGetter("jdbc:sqlite:Trivia Questions.db");
-		this.maze = generateMaze(2,2);
+		//qg = new QuestionGetter("jdbc:sqlite:Trivia Questions.db");
+		this.maze = generateMaze(4,4);
 		this.playerLocation = startLocation;
 		this.startLocation = startLocation;
 		this.endLocation = endLocation;
@@ -31,28 +32,27 @@ public class Maze {
 	 */
 	public void move( MovementDirection dir ) throws IndexOutOfBoundsException {
 		Location currLocation = this.playerLocation;
-		Location goTo = null;
 		Room movedTo = null;
 		switch( dir ) {
 			case UP:
-				goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()-1);
+				this.playerLocation = new Location(currLocation.getXCoord(),currLocation.getYCoord()-1);
 				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()-1];
 				break;
 			case DOWN:
-				goTo = new Location(currLocation.getXCoord(),currLocation.getYCoord()+1);
+				this.playerLocation = new Location(currLocation.getXCoord(),currLocation.getYCoord()+1);
 				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()+1];
 				break;
 			case LEFT:
-				goTo = new Location(currLocation.getXCoord()-1,currLocation.getYCoord());
+				this.playerLocation = new Location(currLocation.getXCoord()-1,currLocation.getYCoord());
 				movedTo = this.maze[currLocation.getXCoord()-1][currLocation.getYCoord()];
 				break;
 				
 			case RIGHT:
-				goTo = new Location(currLocation.getXCoord()+1,currLocation.getYCoord());
+				this.playerLocation = new Location(currLocation.getXCoord()+1,currLocation.getYCoord());
 				movedTo = this.maze[currLocation.getXCoord()+1][currLocation.getYCoord()];
 				break;
 		}
-		playerLocation = goTo;
+
 	}
 	
 	/**
@@ -150,6 +150,10 @@ public class Maze {
 		return room.getQuestion();
 	}
 	
+	
+	public Question getRoomQuestion( Location loc ) {
+		return this.maze[loc.getXCoord()][loc.getYCoord()].getQuestion();
+	}
 	/**
 	 * Gets the question from specified coordinates
 	 * @param x x-coordinate of question we want
@@ -231,6 +235,14 @@ public class Maze {
 		return this.playerLocation;
 	}
 	
+	public Location getEndLocation() {
+		return this.endLocation;
+	}
+	
+	public boolean isPlayerAtExit() {
+		return this.playerLocation.getXCoord() == this.endLocation.getXCoord() &&
+				this.playerLocation.getYCoord() == this.endLocation.getYCoord();
+	}
 	/**
 	 * Generates a Room[][] that will represent the maze, and will add a question into the room as they're created
 	 * @param x how many columns that will be in the maze
@@ -241,12 +253,25 @@ public class Maze {
 		Room[][] m = new Room[x][y];
 		for( int i = 0; i < x; i++ ) {
 			for(int j = 0; j < y; j++ ) {
-				m[i][j] = new Room( qg.getQuestion(), new Location(i,j) );
+				m[i][j] = new Room( Cheats.getEasyQuestion(), new Location(i,j) );
 			}
 		}
 		return m;
 	}
-
 	
+	public Location getAdjacentRoomLocation(MovementDirection dir) {
+		switch (dir) {
+		case UP:
+			return new Location(playerLocation.getXCoord(), playerLocation.getYCoord() - 1);
+		case DOWN:
+			return new Location(playerLocation.getXCoord(), playerLocation.getYCoord() + 1);
+		case LEFT:
+			return new Location(playerLocation.getXCoord() - 1, playerLocation.getYCoord());
+		case RIGHT:
+			return new Location(playerLocation.getXCoord() + 1, playerLocation.getYCoord());
+		}
+		
+		return new Location(0,0);
+	}
 	
 }

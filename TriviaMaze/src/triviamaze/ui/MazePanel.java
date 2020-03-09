@@ -18,6 +18,7 @@ public class MazePanel extends JPanel {
 	ImageIcon iconEmptyRoom = new ImageIcon(MazePanel.class.getResource("/images/EmptyRoom.png"));
 	ImageIcon iconCurrentRoom = new ImageIcon(MazePanel.class.getResource("/images/CurrentRoom.png"));
 	ImageIcon iconExitRoom = new ImageIcon(MazePanel.class.getResource("/images/ExitRoom.png"));
+	ImageIcon iconLockedRoom = new ImageIcon(MazePanel.class.getResource("/images/LockedRoom.png"));
 	
 	private JLabel[][] roomImages;
 
@@ -235,14 +236,20 @@ public class MazePanel extends JPanel {
 				{ lblRoomRowOneColumnTwo, lblRoomRowTwoColumnTwo, lblRoomRowThreeColumnTwo, lblRoomRowFourColumnTwo },
 				{ lblRoomRowOneColumnThree, lblRoomRowTwoColumnThree, lblRoomRowThreeColumnThree, lblRoomRowFourColumnThree },
 				{ lblRoomRowOneColumnFour, lblRoomRowTwoColumnFour, lblRoomRowThreeColumnFour, lblRoomRowFourColumnFour },};
-						
-		setRoomIcon(new Location(0,0), iconCurrentRoom);
-		setRoomIcon(new Location(3,3), iconExitRoom);
+					
 	}
 
 	
 	private void setRoomIcon(Location roomToSet, ImageIcon icon) {
 		roomImages[roomToSet.getXCoord()][roomToSet.getYCoord()].setIcon(icon);
+	}
+	
+	public void setStartRoom(Location roomToSet) {
+		setRoomIcon(roomToSet, iconCurrentRoom);
+	}
+	
+	public void setEndRoom(Location roomToSet) {
+		setRoomIcon(roomToSet, iconExitRoom);
 	}
 	
 	public void movePlayer(int x, int y) {
@@ -253,6 +260,12 @@ public class MazePanel extends JPanel {
 	public void setCurrentRoom(Location oldLocation, Location newLocation) {
 		setRoomIcon(oldLocation, iconEmptyRoom);
 		setRoomIcon(newLocation, iconCurrentRoom);
+		this.validate();
+	}
+
+
+	public void setLockedRoom(Location adjacentRoomLocation) {
+		setRoomIcon(adjacentRoomLocation, iconLockedRoom);
 		
 	}
 }

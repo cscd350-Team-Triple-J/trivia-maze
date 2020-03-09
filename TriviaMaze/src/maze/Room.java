@@ -17,7 +17,7 @@ public class Room {
 	public Room( Question question, Location location ){
 		this.question = question;
 		this.location = location;
-		isRoomLocked = true;
+		isRoomLocked = false;
 		isRoomPermaLocked = false;
 	}
 	

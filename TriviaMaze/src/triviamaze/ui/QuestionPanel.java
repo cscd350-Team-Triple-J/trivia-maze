@@ -17,10 +17,14 @@ public class QuestionPanel extends JPanel {
 	 */
 	String correctAnswer;
 	
+	String correctAnswerMessage;
+	
 	JTextPane txtpnQuestionText;
 	
 	JRadioButton[] rdbtnsAnswers;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+
+	private String incorrectAnswerMessage;
 	
 	
 	public QuestionPanel() {
@@ -73,6 +77,9 @@ public class QuestionPanel extends JPanel {
 		txtpnQuestionText.setText(q.getQuestion());
 		correctAnswer = q.getCorrectAnswer();
 		
+		correctAnswerMessage = q.getCommentRight();
+		incorrectAnswerMessage = q.getCommentWrong();
+		
 		String[] answerOptions = ((MultipleChoiceQuestion)q).getOptions();
 		for (int i = 0; i < answerOptions.length; i++) {
 			rdbtnsAnswers[i].setText(answerOptions[i]);
@@ -81,7 +88,7 @@ public class QuestionPanel extends JPanel {
 	}
 	
 	public boolean isAnswerCorrect() {
-		return correctAnswer == getSelectedAnswer();
+		return correctAnswer.equals(getSelectedAnswer());
 	}
 	
 	private String getSelectedAnswer() {
@@ -91,6 +98,16 @@ public class QuestionPanel extends JPanel {
 			}
 		}
 		return null;
+	}
+
+	public String getCorrectAnswerMessage() {
+		// TODO Auto-generated method stub
+		return correctAnswerMessage;
+	}
+	
+	public String getIncorrectAnswerMessage() {
+		// TODO Auto-generated method stub
+		return incorrectAnswerMessage;
 	}
 
 }
