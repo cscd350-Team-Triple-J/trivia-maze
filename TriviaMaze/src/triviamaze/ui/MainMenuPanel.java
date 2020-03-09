@@ -42,13 +42,17 @@ public class MainMenuPanel extends JFrame {
 		btnAddQuestion.setBounds(392, 300, 168, 50);
 		contentPane.add(btnAddQuestion);
 		
-		JButton btnPlayGame = new JButton("Play Game");
-		btnPlayGame.setBounds(10, 50, 120, 300);
+		JButton btnPlayGame = new JButton("New Game");
+		btnPlayGame.setBounds(10, 50, 120, 150);
 		contentPane.add(btnPlayGame);
+		
+		JButton btnLoadGame = new JButton("Load Game");
+		btnLoadGame.setBounds(10, 200, 120, 150);
+		contentPane.add(btnLoadGame);
 		
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setHorizontalAlignment(SwingConstants.LEFT);
-		lblUsername.setBounds(339, 110, 62, 20);
+		lblUsername.setBounds(339,  10, 62, 20);
 		contentPane.add(lblUsername);
 		
 		JLabel lblPassword = new JLabel("Password");
@@ -88,11 +92,21 @@ public class MainMenuPanel extends JFrame {
 		contentPane.add(textPaneLoginDetails);
 			
 		btnPlayGame.addActionListener(PlayGameButton);
+		btnLoadGame.addActionListener(LoadGameButton);
 		btnAddQuestion.addActionListener(AdminSettingsButton);
 		btnLogin.addActionListener(AdminLoginButton);
 	}
 	
 	ActionListener PlayGameButton = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			// TODO Auto-generated method stub
+			setContentPane(new GamePanel());
+		}
+	};
+	
+	ActionListener LoadGameButton = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent event) {
