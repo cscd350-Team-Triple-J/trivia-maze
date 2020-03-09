@@ -101,7 +101,7 @@ public class GamePanel extends JPanel {
 	ActionListener submitButton = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			if (panelQuestion.IsAnswerCorrect()) {
+			if (panelQuestion.isAnswerCorrect()) {
 				Location newLocation;
 				switch (currentDirection) {
 				case UP:
