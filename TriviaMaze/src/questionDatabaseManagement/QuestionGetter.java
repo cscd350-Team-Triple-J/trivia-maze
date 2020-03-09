@@ -49,7 +49,7 @@ public class QuestionGetter {
 					break;
 				}
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		Random random = new Random();
