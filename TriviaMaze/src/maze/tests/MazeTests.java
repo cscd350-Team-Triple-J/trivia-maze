@@ -127,5 +127,14 @@ class MazeTests {
 		assertTrue( rm2.getQuestion().equals(test.getRoomQuestion(rm2)) );
 		assertTrue( rm3.getQuestion().equals(test.getRoomQuestion(rm3)) );
 	}
+	
+	@Test
+	void testCheckRoom() {
+		boolean[] rooms = test.checkSurroundingRooms();
+		assertFalse( rooms[0] );
+		assertTrue( rooms[1] );
+		assertFalse( rooms[2] );
+		assertTrue( rooms[3] );
+	}
 
 }
