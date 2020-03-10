@@ -42,36 +42,6 @@ public class QuestionPanel extends JPanel {
 		add(txtpnQuestionText);
 
 		rdbtnsAnswers = new LinkedList<JRadioButton>();
-
-//		JRadioButton rdbtnAnswerOne = new JRadioButton("Answer 1");
-//		buttonGroup.add(rdbtnAnswerOne);
-//		rdbtnAnswerOne.setBounds(0, 100, 200, 50);
-//		rdbtnAnswerOne.setVisible(false);
-//		add(rdbtnAnswerOne);
-//		JRadioButton rdbtnAnswerTwo = new JRadioButton("Answer 2");
-//		buttonGroup.add(rdbtnAnswerTwo);
-//		rdbtnAnswerTwo.setBounds(0, 150, 200, 50);
-//		rdbtnAnswerTwo.setVisible(false);
-//		add(rdbtnAnswerTwo);
-//		JRadioButton rdbtnAnswerThree = new JRadioButton("Answer 3");
-//		buttonGroup.add(rdbtnAnswerThree);
-//		rdbtnAnswerThree.setBounds(0, 200, 200, 50);
-//		rdbtnAnswerThree.setVisible(false);
-//		add(rdbtnAnswerThree);
-//		JRadioButton rdbtnAnswerFour = new JRadioButton("Answer 4");
-//		buttonGroup.add(rdbtnAnswerFour);
-//		rdbtnAnswerFour.setBounds(0, 250, 200, 50);
-//		rdbtnAnswerFour.setVisible(false);
-//		add(rdbtnAnswerFour);
-//		JRadioButton rdbtnAnswerFive = new JRadioButton("Answer 5");
-//		buttonGroup.add(rdbtnAnswerFive);
-//		rdbtnAnswerFive.setBounds(0, 300, 200, 50);
-//		rdbtnAnswerFive.setVisible(false);
-//		add(rdbtnAnswerFive);
-//
-//		rdbtnsAnswers = new JRadioButton[] { rdbtnAnswerOne, rdbtnAnswerTwo, rdbtnAnswerThree, rdbtnAnswerFour,
-//				rdbtnAnswerFive };
-
 	}
 
 	public void initializeQuestionData(Question q) {
@@ -93,6 +63,7 @@ public class QuestionPanel extends JPanel {
 		case ("SA"):
 			break;
 		}
+		rdbtnsAnswers.clear();
 		for (int i = 50; i <= answers.length * 50; i += 50) {
 			JRadioButton rdbtnAnswer = new JRadioButton(answers[i / 50 - 1]);
 			buttonGroup.add(rdbtnAnswer);
