@@ -97,12 +97,10 @@ public class QuestionPanel extends JPanel {
 	}
 
 	public String getCorrectAnswerMessage() {
-		// TODO Auto-generated method stub
 		return correctAnswerMessage;
 	}
 
 	public String getIncorrectAnswerMessage() {
-		// TODO Auto-generated method stub
 		return incorrectAnswerMessage;
 	}
 
