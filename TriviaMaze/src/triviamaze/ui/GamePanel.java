@@ -27,9 +27,6 @@ import maze.MovementDirection;
 
 public class GamePanel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private final ButtonGroup buttonGroup = new ButtonGroup();
@@ -42,8 +39,6 @@ public class GamePanel extends JPanel {
 
 	MovementDirection currentDirection = null;
 
-	Location TestLocation = new Location(0, 0);
-
 	JButton btnMoveUp;
 	JButton btnMoveDown;
 	JButton btnMoveLeft;
@@ -51,8 +46,6 @@ public class GamePanel extends JPanel {
 	JButton btnSubmitAnswer;
 
 	public GamePanel() {
-
-		maze = new Maze(4, 4, new Location(0, 0), new Location(3, 3));
 
 		panelMaze = new MazePanel(maze);
 		panelMaze.setBounds(59, 60, 180, 180);
@@ -108,10 +101,9 @@ public class GamePanel extends JPanel {
 	}
 
 	private void endGameOptions(int selectedOption) {
-		if (selectedOption == 0) // yes
+		if (selectedOption == 0)
 			initializeGame();
-		else if (selectedOption == 1)// no
-			// return to main menu
+		else if (selectedOption == 1)
 			return;
 		else
 			return;
@@ -150,34 +142,37 @@ public class GamePanel extends JPanel {
 		btnSubmitAnswer.setEnabled(true);
 		disableMovementButtons();
 	}
+	
+	private void submitAnswer() {
+		if (panelQuestion.isAnswerCorrect()) {
+			panelMaze.setCurrentRoom(maze.getPlayerLocation(), maze.getAdjacentRoomLocation(currentDirection));
+			maze.move(currentDirection);
+			JOptionPane.showMessageDialog(panelQuestion, "Correct!\n" + panelQuestion.getCorrectAnswerMessage());
+			if (maze.isPlayerAtExit()) {
+				endGameOptions(JOptionPane.showConfirmDialog(panelMaze, "You win! Do you want to play again?"));
+			}
+
+		} else {
+			JOptionPane.showMessageDialog(panelQuestion, "Incorrect!\n" + panelQuestion.getIncorrectAnswerMessage());
+			if (maze.hasValidPathToEnd()) {
+				maze.lockRoom(maze.getAdjacentRoomLocation(currentDirection));
+				panelMaze.setLockedRoom(maze.getAdjacentRoomLocation(currentDirection));
+			} else {
+				endGameOptions(JOptionPane.showConfirmDialog(panelMaze,
+						"You have a vision that there is no way to the exit. You accept your demise. Do you want to play again?"));
+			}
+		}
+
+		panelQuestion.setVisible(false);
+		btnSubmitAnswer.setEnabled(false);
+		currentDirection = null;
+		enableMovementButtons();
+	}
 
 	ActionListener submitButton = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent event) {
-
-			if (panelQuestion.isAnswerCorrect()) {
-				panelMaze.setCurrentRoom(maze.getPlayerLocation(), maze.getAdjacentRoomLocation(currentDirection));
-				maze.move(currentDirection);
-				JOptionPane.showMessageDialog(panelQuestion, "Correct!\n" + panelQuestion.getCorrectAnswerMessage());
-				if (maze.isPlayerAtExit()) {
-					endGameOptions(JOptionPane.showConfirmDialog(panelMaze, "You win! Do you want to play again?"));
-				}
-
-			} else {
-				JOptionPane.showMessageDialog(panelQuestion, "Incorrect!\n" + panelQuestion.getIncorrectAnswerMessage());
-				if (maze.hasValidPathToEnd()) {
-					maze.lockRoom(maze.getAdjacentRoomLocation(currentDirection));
-					panelMaze.setLockedRoom(maze.getAdjacentRoomLocation(currentDirection));
-				} else {
-					endGameOptions(JOptionPane.showConfirmDialog(panelMaze,
-							"You have a vision that there is no way to the exit. You accept your demise. Do you want to play again?"));
-				}
-			}
-
-			panelQuestion.setVisible(false);
-			btnSubmitAnswer.setEnabled(false);
-			currentDirection = null;
-			enableMovementButtons();
+			submitAnswer();
 		}
 	};
 
