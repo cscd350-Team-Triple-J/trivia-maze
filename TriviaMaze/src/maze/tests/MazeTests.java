@@ -71,7 +71,7 @@ class MazeTests {
 	
 	@Test
 	void testCheckSurroundingRooms() {
-		boolean[] arr = test.checkSurroundingRooms( new Location(0,0) );
+		boolean[] arr = test.checkSurroundingRooms();
 	}
 	
 	@Test
