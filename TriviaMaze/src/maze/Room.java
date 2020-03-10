@@ -1,12 +1,12 @@
 package maze;
 import questionDatabaseManagement.*;
 
+
 public class Room {
 
 	private boolean isRoomLocked;
 	private boolean isRoomPermaLocked;
 	private Location location;
-	private Question question;
 	
 	/**
 	 * Room constructor that holds a question and two boolean values.
@@ -14,15 +14,10 @@ public class Room {
 	 * the player forward
 	 * @param question Trivia question that player has to answer
 	 */
-	public Room( Question question, Location location ){
-		this.question = question;
+	public Room( Location location ){
 		this.location = location;
 		isRoomLocked = false;
 		isRoomPermaLocked = false;
-	}
-	
-	public Question getQuestion() {
-		return this.question;
 	}
 	
 	public boolean isRoomLocked() {

@@ -144,7 +144,7 @@ public class GamePanel extends JPanel {
 		if (Cheats.easyQuestionsEnabled)
 			panelQuestion.initializeQuestionData(Cheats.getEasyQuestion());
 		else
-			panelQuestion.initializeQuestionData(maze.getRoomQuestion(maze.getAdjacentRoomLocation(currentDirection)));
+			panelQuestion.initializeQuestionData(maze.getQuestion());
 		panelQuestion.setVisible(true);
 
 		btnSubmitAnswer.setEnabled(true);
@@ -164,7 +164,8 @@ public class GamePanel extends JPanel {
 				}
 
 			} else {
-				JOptionPane.showMessageDialog(panelQuestion, "Incorrect!\n" + panelQuestion.getIncorrectAnswerMessage());
+				JOptionPane.showMessageDialog(panelQuestion,
+						"Incorrect!\n" + panelQuestion.getIncorrectAnswerMessage());
 				if (maze.hasValidPathToEnd()) {
 					maze.lockRoom(maze.getAdjacentRoomLocation(currentDirection));
 					panelMaze.setLockedRoom(maze.getAdjacentRoomLocation(currentDirection));

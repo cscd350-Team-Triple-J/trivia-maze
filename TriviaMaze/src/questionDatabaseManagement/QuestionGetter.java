@@ -68,15 +68,16 @@ public class QuestionGetter {
 
 	private int getQuestionCountInitital() {
 		Connection con = db.getConnection();
-		PreparedStatement ps = null;
+		Statement s = null;
 		ResultSet rs = null;
 		int size = -1;
 		try {
+			Class.forName("org.sqlite.JDBC");
+			s = con.createStatement();
 			String sql = "select count(id) from questions";
-			ps = con.prepareStatement(sql);
-			rs = ps.executeQuery();
+			rs = s.executeQuery(sql);
 			size = rs.getInt(1);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			System.out.println(e.toString());
 			size = -1;
 		}
