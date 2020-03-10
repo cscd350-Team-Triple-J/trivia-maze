@@ -10,6 +10,7 @@ import questionDatabaseManagement.Question;
 class MazeTests {
 
 	Maze test;
+	Maze test2;
 	Room[][] maze;
 	Location mazeStart = new Location(0,0);
 	Location mazeEnd = new Location(1,1);
@@ -18,6 +19,7 @@ class MazeTests {
 	@BeforeEach
 	void setUp() throws Exception {
 		test = new Maze( 2,2, mazeStart, mazeEnd );
+		test2 = new Maze( 4,4, mazeStart, new Location(4,4) );
 		maze = test.getMaze();
 	}
 
@@ -134,6 +136,14 @@ class MazeTests {
 		assertFalse( rooms[0] );
 		assertTrue( rooms[1] );
 		assertFalse( rooms[2] );
+		assertTrue( rooms[3] );
+		
+		test2.move(MovementDirection.RIGHT);
+		test2.move(MovementDirection.DOWN);
+		rooms = test2.checkSurroundingRooms();
+		assertTrue( rooms[0] );
+		assertTrue( rooms[1] );
+		assertTrue( rooms[2] );
 		assertTrue( rooms[3] );
 	}
 

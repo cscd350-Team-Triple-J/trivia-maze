@@ -18,7 +18,7 @@ public class Maze {
 	 */
 	public Maze( int x, int y, Location startLocation, Location endLocation ) {
 		qg = new QuestionGetter("jdbc:sqlite:Trivia Questions.db");
-		this.maze = generateMaze(2,2);
+		this.maze = generateMaze(x,y);
 		this.playerLocation = startLocation;
 		this.startLocation = startLocation;
 		this.endLocation = endLocation;
@@ -53,7 +53,7 @@ public class Maze {
 				break;
 		}
 		// move the player to the location
-		playerLocation = goTo;
+		this.playerLocation = goTo;
 	}
 	
 	/**
