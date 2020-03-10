@@ -1,5 +1,6 @@
 package maze;
 
 public enum MovementDirection {
-	UP, DOWN, LEFT, RIGHT
+	UP, DOWN, RIGHT, LEFT
 }
+

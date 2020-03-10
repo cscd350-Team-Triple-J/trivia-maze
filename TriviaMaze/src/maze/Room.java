@@ -33,6 +33,14 @@ public class Room {
 		this.isRoomLocked = isRoomLocked;
 	}
 	
+	public boolean isRoomPermaLocked() {
+		return this.isRoomPermaLocked;
+	}
+	
+	public void setRoomPermaLocked( boolean isRoomPermaLocked ) {
+		this.isRoomPermaLocked = isRoomPermaLocked;
+	}
+	
 	public void lockRoom() {
 		this.isRoomLocked = true;
 	}
