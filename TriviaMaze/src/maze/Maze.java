@@ -53,7 +53,11 @@ public class Maze {
 				break;
 		}
 		// move the player to the location
+<<<<<<< HEAD
 		this.playerLocation = goTo;
+=======
+		playerLocation = goTo;
+>>>>>>> JonsBranch
 	}
 	
 	/**
@@ -64,6 +68,7 @@ public class Maze {
 	 */
 	public boolean[] checkSurroundingRooms() {
 		//                   up   down  left  right
+<<<<<<< HEAD
 		boolean[] rooms = { true, true, true, true };
 		
 		// check rooms around player location
@@ -73,6 +78,17 @@ public class Maze {
 		rooms[3] = checkRoom( MovementDirection.RIGHT );
 		
 		return rooms;
+=======
+		boolean[] doors = { true, true, true, true };
+		
+		// check rooms around player location
+		doors[0] = checkRoom( MovementDirection.UP );
+		doors[1] = checkRoom( MovementDirection.DOWN );
+		doors[2] = checkRoom( MovementDirection.LEFT );
+		doors[3] = checkRoom( MovementDirection.RIGHT );
+		
+		return doors;
+>>>>>>> JonsBranch
 	}
 	
 	/**
@@ -250,6 +266,7 @@ public class Maze {
 		}
 		return maze;
 	}
+<<<<<<< HEAD
 	
 	/**
 	 * Will check a certain direction from the room to see if it could be a valid move
@@ -285,5 +302,45 @@ public class Maze {
 				
 		return notOutOfBounds;
 	}
+=======
+>>>>>>> JonsBranch
 	
+	/**
+	 * Will check a certain direction from the room to see if it could be a valid move
+	 * @param dir Direction in which the player will move
+	 * @return boolean stating if it is a valid move
+	 */
+	private boolean checkRoom( MovementDirection dir ) {
+		
+		Room movedTo = null;
+		Location currLocation = this.playerLocation;
+		boolean notOutOfBounds = true;
+		
+		// try run like this and see how Exception is handled
+		// will most likely need to add a try catch to each of these, and the boolean
+		// will be set to false in the catch. Otherwise the room is okay
+		switch( dir ) {
+			case UP:
+				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()-1];
+				break;
+			case DOWN:
+				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord()+1];
+				break;
+			case LEFT:
+				movedTo = this.maze[currLocation.getXCoord()-1][currLocation.getYCoord()];
+				break;
+				
+			case RIGHT:
+				movedTo = this.maze[currLocation.getXCoord()+1][currLocation.getYCoord()];
+				break;
+		}
+				
+		return notOutOfBounds;
+	}
+		/*try {
+			Room check = this.maze[pLocX][pLocY-1];
+		}
+		catch( IndexOutOfBoundsException e ) {
+			doors[0] = false;
+		}*/
 }
