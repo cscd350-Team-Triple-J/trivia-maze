@@ -23,47 +23,52 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import maze.Location;
 import maze.Maze;
+import maze.MovementDirection;
 
 public class GamePanel extends JPanel {
-	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	
+
+	boolean easyQuestionCheatEnabled = true;
+
 	Maze maze;
 	MazePanel panelMaze;
 	QuestionPanel panelQuestion;
-	
+
 	MovementDirection currentDirection = null;
-	
-	Location TestLocation = new Location(0,0);
-	
+
+	Location TestLocation = new Location(0, 0);
+
 	JButton btnMoveUp;
 	JButton btnMoveDown;
 	JButton btnMoveLeft;
 	JButton btnMoveRight;
 	JButton btnSubmitAnswer;
-	
-	public GamePanel() {
-		
 
-		maze = new Maze(4,4,new Location(0,0), new Location(4,4));
-		
+	public GamePanel() {
+
+		maze = new Maze(4, 4, new Location(0, 0), new Location(3, 3));
 
 		panelMaze = new MazePanel(maze);
 		panelMaze.setBounds(59, 60, 180, 180);
 		add(panelMaze);
-		
+
 		panelQuestion = new QuestionPanel();
 		panelQuestion.setBounds(390, 10, 200, 350);
-		panelQuestion.setVisible(false);
-		
+
 		btnMoveUp = new JButton("Up");
 		btnMoveUp.setBounds(100, 365, 90, 25);
 		btnMoveUp.addActionListener(moveUpButton);
-		
+
 		btnMoveDown = new JButton("Down");
 		btnMoveDown.setBounds(100, 415, 90, 25);
 		btnMoveDown.addActionListener(moveDownButton);
-		
+
 		btnMoveLeft = new JButton("Left");
 		btnMoveLeft.setBounds(10, 390, 90, 25);
 		btnMoveLeft.addActionListener(moveLeftButton);
@@ -71,12 +76,13 @@ public class GamePanel extends JPanel {
 		btnMoveRight = new JButton("Right");
 		btnMoveRight.setBounds(190, 390, 90, 25);
 		btnMoveRight.addActionListener(moveRightButton);
-		
+
 		btnSubmitAnswer = new JButton("Submit");
 		btnSubmitAnswer.setBounds(435, 390, 100, 25);
 		btnSubmitAnswer.addActionListener(submitButton);
-		btnSubmitAnswer.setEnabled(false);
-		
+
+		initializeGame();
+
 		setLayout(null);
 		add(panelQuestion);
 		add(btnSubmitAnswer);
@@ -85,73 +91,96 @@ public class GamePanel extends JPanel {
 		add(btnMoveDown);
 		add(btnMoveRight);
 	}
-	
-	private void setEnabledMovementButtons(boolean shouldEnable) {
-		btnMoveUp.setEnabled(shouldEnable);
-		btnMoveDown.setEnabled(shouldEnable);
-		btnMoveLeft.setEnabled(shouldEnable);
-		btnMoveRight.setEnabled(shouldEnable);
+
+	private void initializeGame() {
+		maze = new Maze(4, 4, new Location(0, 0), new Location(3, 3));
+
+		panelMaze.setStartRoom(maze.getPlayerLocation());
+		panelMaze.setEndRoom(maze.getEndLocation());
+
+		panelQuestion.setVisible(false);
+		btnMoveUp.setEnabled(false);
+		btnMoveDown.setEnabled(false);
+		btnMoveLeft.setEnabled(false);
+		btnMoveRight.setEnabled(false);
+		btnSubmitAnswer.setEnabled(false);
+		enableMovementButtons();
 	}
-	
+
+	private void endGameOptions(int selectedOption) {
+		if (selectedOption == 0) // yes
+			initializeGame();
+		else if (selectedOption == 1)// no
+			// return to main menu
+			return;
+		else
+			return;
+
+	}
+
+	private void disableMovementButtons() {
+		btnMoveUp.setEnabled(false);
+		btnMoveDown.setEnabled(false);
+		btnMoveLeft.setEnabled(false);
+		btnMoveRight.setEnabled(false);
+	}
+
+	private void enableMovementButtons() {
+		if (maze.roomExists(maze.getAdjacentRoomLocation(MovementDirection.UP))
+				&& !maze.isRoomLocked(maze.getAdjacentRoomLocation(MovementDirection.UP)))
+			btnMoveUp.setEnabled(true);
+		if (maze.roomExists(maze.getAdjacentRoomLocation(MovementDirection.DOWN))
+				&& !maze.isRoomLocked(maze.getAdjacentRoomLocation(MovementDirection.DOWN)))
+			btnMoveDown.setEnabled(true);
+		if (maze.roomExists(maze.getAdjacentRoomLocation(MovementDirection.LEFT))
+				&& !maze.isRoomLocked(maze.getAdjacentRoomLocation(MovementDirection.LEFT)))
+			btnMoveLeft.setEnabled(true);
+		if (maze.roomExists(maze.getAdjacentRoomLocation(MovementDirection.RIGHT))
+				&& !maze.isRoomLocked(maze.getAdjacentRoomLocation(MovementDirection.RIGHT)))
+			btnMoveRight.setEnabled(true);
+	}
+
 	private void showQuestion() {
-		//panelQuestion.initializeQuestionData(new Question);
+		if (Cheats.easyQuestionsEnabled)
+			panelQuestion.initializeQuestionData(Cheats.getEasyQuestion());
+		else
+			panelQuestion.initializeQuestionData(maze.getRoomQuestion(maze.getAdjacentRoomLocation(currentDirection)));
 		panelQuestion.setVisible(true);
-		
+
 		btnSubmitAnswer.setEnabled(true);
-		setEnabledMovementButtons(false);
+		disableMovementButtons();
 	}
-	
+
 	ActionListener submitButton = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent event) {
 
 			if (panelQuestion.isAnswerCorrect()) {
-				Location newLocation;
-				switch (currentDirection) {
-				case UP:
-					maze.moveUp();
-					break;
-				case DOWN:
-					maze.moveDown();
-					break;
-				case LEFT:
-					maze.moveLeft();
-					break;
-				case RIGHT:
-					maze.moveRight();
-					break;
-				default: 
-					break;
+				panelMaze.setCurrentRoom(maze.getPlayerLocation(), maze.getAdjacentRoomLocation(currentDirection));
+				maze.move(currentDirection);
+				JOptionPane.showMessageDialog(panelQuestion, "Correct!\n" + panelQuestion.getCorrectAnswerMessage());
+				if (maze.isPlayerAtExit()) {
+					endGameOptions(JOptionPane.showConfirmDialog(panelMaze, "You win! Do you want to play again?"));
 				}
-				
-				panelMaze.setCurrentRoom(oldLocation, maze.getPlayerLocation());
-				
-				if (true) { //(maze.getPlayerLocation() && maze.getEndLocation)
-					JOptionPane.showConfirmDialog(panelMaze, "You win! Do you want to play again?");
-				}
-			}
-			else {
-				if (maze.hasValidPathToEnd()){
-					//lock room player tried to move into
-				}
-				else {
-					//enter game over screen
-					int selection = JOptionPane.showConfirmDialog(panelMaze, "You have a vision that there is no way to the exit. You accept! Do you want to play again?");
 
+			} else {
+				JOptionPane.showMessageDialog(panelQuestion, "Incorrect!\n" + panelQuestion.getIncorrectAnswerMessage());
+				if (maze.hasValidPathToEnd()) {
+					maze.lockRoom(maze.getAdjacentRoomLocation(currentDirection));
+					panelMaze.setLockedRoom(maze.getAdjacentRoomLocation(currentDirection));
+				} else {
+					endGameOptions(JOptionPane.showConfirmDialog(panelMaze,
+							"You have a vision that there is no way to the exit. You accept your demise. Do you want to play again?"));
 				}
-				
-			
 			}
-			
+
 			panelQuestion.setVisible(false);
 			btnSubmitAnswer.setEnabled(false);
 			currentDirection = null;
-			setEnabledMovementButtons(true);
+			enableMovementButtons();
 		}
 	};
-	
 
-	
 	ActionListener moveUpButton = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent event) {
@@ -159,7 +188,7 @@ public class GamePanel extends JPanel {
 			showQuestion();
 		}
 	};
-	
+
 	ActionListener moveRightButton = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent event) {
@@ -167,7 +196,7 @@ public class GamePanel extends JPanel {
 			showQuestion();
 		}
 	};
-	
+
 	ActionListener moveDownButton = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent event) {
@@ -175,7 +204,7 @@ public class GamePanel extends JPanel {
 			showQuestion();
 		}
 	};
-	
+
 	ActionListener moveLeftButton = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent event) {
@@ -184,11 +213,4 @@ public class GamePanel extends JPanel {
 		}
 	};
 
-	private enum MovementDirection{
-		UP,
-		DOWN,
-		LEFT,
-		RIGHT
-	}
-	
 }

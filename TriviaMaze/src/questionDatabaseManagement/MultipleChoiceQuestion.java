@@ -19,7 +19,7 @@ public class MultipleChoiceQuestion extends Question {
 	private String[] convertStringToArray(String string) {
 		Scanner scanner = new Scanner(string);
 		scanner.useDelimiter(",");
-		int count = scanner.nextInt();
+		int count = 4;
 		String[] array = new String[count];
 		for (int i = 0; i < count; i++) {
 			array[i] = scanner.next();
