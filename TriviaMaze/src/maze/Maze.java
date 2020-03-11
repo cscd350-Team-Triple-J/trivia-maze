@@ -79,8 +79,8 @@ public class Maze {
 	 * @return boolean array telling us if directions up, down, left, right are
 	 *         viable or not
 	 */
-	public boolean[] checkSurroundingRooms( Room[][] maze ) {
-		// 					 up   down  left  right
+	public boolean[] checkSurroundingRooms(Room[][] maze) {
+		// up down left right
 		boolean[] rooms = { true, true, true, true };
 
 		// check rooms around player location
@@ -316,7 +316,7 @@ public class Maze {
 				maze[i][j] = new Room(new Location(i, j));
 			}
 		}
-		return m;
+		return maze;
 	}
 
 	/**
