@@ -4,7 +4,6 @@ import questionDatabaseManagement.*;
 public class Maze {
 
 	private Room[][] maze;
-	private Room[][] mazeTrace;
 	private Location playerLocation;
 	private Location startLocation;
 	private Location endLocation;
@@ -20,7 +19,6 @@ public class Maze {
 	public Maze( int x, int y, Location startLocation, Location endLocation ) {
 		qg = new QuestionGetter("jdbc:sqlite:Trivia Questions.db");
 		this.maze = generateMaze(x,y);
-		this.mazeTrace = copyMaze(this.maze);
 		this.playerLocation = startLocation;
 		this.startLocation = startLocation;
 		this.endLocation = endLocation;
@@ -176,13 +174,13 @@ public class Maze {
 		int endY = this.endLocation.getYCoord();
 		
 		if( (xCoord == endX-1 ) && (yCoord == endY-1 ) ) {
-			this.mazeTrace[xCoord][yCoord].setExplore(true);
+			this.maze[xCoord][yCoord].setExplore(true);
 			return true;
 		}
 		
 		// how should I format this 
-		if(xCoord >= 0 && yCoord >= 0 && xCoord < maxX && yCoord < maxY && !this.maze[xCoord][yCoord].isExplored() && !this.maze[xCoord][yCoord].isRoomPermaLocked() && !this.mazeTrace[xCoord][yCoord].isExplored() ) {
-			this.mazeTrace[xCoord][yCoord].setExplore(true);
+		if(xCoord >= 0 && yCoord >= 0 && xCoord < maxX && yCoord < maxY && !this.maze[xCoord][yCoord].isExplored() && !this.maze[xCoord][yCoord].isRoomPermaLocked() ) {
+			this.maze[xCoord][yCoord].setExplore(true);
 			if( traverseMaze(xCoord,yCoord - 1) ) {
 				return true;
 			}
@@ -195,7 +193,7 @@ public class Maze {
 			if( traverseMaze(xCoord + 1,yCoord) ) {
 				return true;
 			}
-			this.mazeTrace[xCoord][yCoord].setExplore(false);
+			this.maze[xCoord][yCoord].setExplore(false);
 			return false;
 		}
 		return false;
@@ -208,7 +206,6 @@ public class Maze {
 		for( int i = 0; i < this.maze.length; i++ ) {
 			for( int j = 0; j < this.maze[0].length; j++ ) {
 				this.maze[i][j].setExplore(false);
-				this.mazeTrace[i][j].setExplore(false);
 			}
 		}
 	}
@@ -350,19 +347,5 @@ public class Maze {
 		return notOutOfBounds;
 	}
 	
-	/**
-	 * Helper method that will deep copy a maze
-	 * @param room array that will be copied
-	 * @return room array that will hold the copy
-	 */
-	private Room[][] copyMaze( Room[][] maze ){
-		Room[][] copy = new Room[maze.length][maze[0].length];
-		for( int i = 0; i < maze.length; i++ ) {
-			for( int j = 0; j < maze[0].length; j++ ) {
-				copy[i][j] = maze[i][j];
-			}
-		}
-		return copy;
-	}
 	
 }
