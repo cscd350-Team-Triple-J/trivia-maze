@@ -79,15 +79,15 @@ public class Maze {
 	 * @return boolean array telling us if directions up, down, left, right are
 	 *         viable or not
 	 */
-	public boolean[] checkSurroundingRooms() {
-		// up down left right
+	public boolean[] checkSurroundingRooms( Room[][] maze ) {
+		// 					 up   down  left  right
 		boolean[] rooms = { true, true, true, true };
 
 		// check rooms around player location
-		rooms[0] = checkRoom(MovementDirection.UP);
-		rooms[1] = checkRoom(MovementDirection.DOWN);
-		rooms[2] = checkRoom(MovementDirection.LEFT);
-		rooms[3] = checkRoom(MovementDirection.RIGHT);
+		rooms[0] = checkRoom(MovementDirection.UP, maze);
+		rooms[1] = checkRoom(MovementDirection.DOWN, maze);
+		rooms[2] = checkRoom(MovementDirection.LEFT, maze);
+		rooms[3] = checkRoom(MovementDirection.RIGHT, maze);
 
 		return rooms;
 	}
@@ -310,10 +310,10 @@ public class Maze {
 	 * @return a Room[][] representing a maze
 	 */
 	private Room[][] generateMaze(int x, int y) {
-		Room[][] m = new Room[x][y];
+		Room[][] maze = new Room[x][y];
 		for (int i = 0; i < x; i++) {
 			for (int j = 0; j < y; j++) {
-				m[i][j] = new Room(new Location(i, j));
+				maze[i][j] = new Room(new Location(i, j));
 			}
 		}
 		return m;
@@ -326,7 +326,7 @@ public class Maze {
 	 * @param dir Direction in which the player will move
 	 * @return boolean stating if it is a valid move
 	 */
-	private boolean checkRoom(MovementDirection dir) {
+	private boolean checkRoom(MovementDirection dir, Room[][] maze) {
 
 		Room movedTo = null;
 		Location currLocation = this.playerLocation;
@@ -335,16 +335,16 @@ public class Maze {
 		try {
 			switch (dir) {
 			case UP:
-				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord() - 1];
+				movedTo = maze[currLocation.getXCoord()][currLocation.getYCoord() - 1];
 				break;
 			case DOWN:
-				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord() + 1];
+				movedTo = maze[currLocation.getXCoord()][currLocation.getYCoord() + 1];
 				break;
 			case LEFT:
-				movedTo = this.maze[currLocation.getXCoord() - 1][currLocation.getYCoord()];
+				movedTo = maze[currLocation.getXCoord() - 1][currLocation.getYCoord()];
 				break;
 			case RIGHT:
-				movedTo = this.maze[currLocation.getXCoord() + 1][currLocation.getYCoord()];
+				movedTo = maze[currLocation.getXCoord() + 1][currLocation.getYCoord()];
 				break;
 			}
 		} catch (Exception e) {
