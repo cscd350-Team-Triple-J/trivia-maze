@@ -101,7 +101,6 @@ public class MainMenuPanel extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			// TODO Auto-generated method stub
 			setContentPane(new GamePanel());
 		}
 	};
@@ -110,7 +109,6 @@ public class MainMenuPanel extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			// TODO Auto-generated method stub
 			setContentPane(new GamePanel());
 		}
 	};
@@ -119,13 +117,11 @@ public class MainMenuPanel extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			// TODO Auto-generated method stub
 			if (loggedIn) {
 				setContentPane(new AdminSettingsPanel());
 			}
 			else {
 				JOptionPane.showMessageDialog(contentPane, "Login as administrator to access settings.");
-			
 			}
 		}
 	};

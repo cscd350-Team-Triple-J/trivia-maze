@@ -13,6 +13,7 @@ import javax.swing.ButtonGroup;
 
 import questionDatabaseManagement.MultipleChoiceQuestion;
 import questionDatabaseManagement.Question;
+import javax.swing.JTextField;
 
 public class QuestionPanel extends JPanel {
 
@@ -31,6 +32,7 @@ public class QuestionPanel extends JPanel {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	private String incorrectAnswerMessage;
+	private JTextField txtShortAnswerInput;
 
 	public QuestionPanel() {
 		setLayout(null);
@@ -45,6 +47,11 @@ public class QuestionPanel extends JPanel {
 	}
 
 	public void initializeQuestionData(Question q) {
+		
+		cleanUpMultipleChoiceInputs();
+		if (txtShortAnswerInput != null)
+		cleanUpShortAnswerTextbox();
+		
 		txtpnQuestionText.setText(q.getQuestion());
 		correctAnswer = q.getCorrectAnswer();
 		questionType = q.getType();
@@ -53,20 +60,28 @@ public class QuestionPanel extends JPanel {
 		incorrectAnswerMessage = q.getCommentWrong();
 		String[] answers = null;
 		System.out.println(questionType);
-		switch (questionType) {
-		case ("TF"):
-			answers = new String[] { "True", "False" };
-			break;
-		case ("MC"):
-			answers = ((MultipleChoiceQuestion) q).getOptions();
-			break;
-		case ("SA"):
-			break;
-		}
+		
 		int size = rdbtnsAnswers.size();
 		for (int i = 0; i < size; i++) {
 			rdbtnsAnswers.pop().hide();
 		}
+		rdbtnsAnswers.clear();
+		
+		switch (questionType) {
+		case ("TF"):
+			initializeAnswerRadios(new String[] { "True", "False" });
+			break;
+		case ("MC"):
+			initializeAnswerRadios(((MultipleChoiceQuestion) q).getOptions());
+			break;
+		case ("SA"):
+			initializeShortAnswerTextbox();
+			break;
+		}
+	}
+	
+	private void initializeAnswerRadios(String[] answers) {
+
 		rdbtnsAnswers.clear();
 		for (int i = 50; i <= answers.length * 50; i += 50) {
 			JRadioButton rdbtnAnswer = new JRadioButton();
@@ -79,6 +94,14 @@ public class QuestionPanel extends JPanel {
 			add(rdbtnAnswer);
 		}
 	}
+	
+	private void initializeShortAnswerTextbox() {
+		txtShortAnswerInput = new JTextField();
+		txtShortAnswerInput.setText("Type Answer Here");
+		txtShortAnswerInput.setBounds(10, 111, 180, 20);
+		add(txtShortAnswerInput);
+		txtShortAnswerInput.setColumns(10);
+	}
 
 	public boolean isAnswerCorrect() {
 		switch (questionType) {
@@ -88,7 +111,7 @@ public class QuestionPanel extends JPanel {
 		case ("MC"):
 			return correctAnswer.equals(getSelectedAnswer());
 		case ("SA"):
-			return true;
+			return correctAnswer.toLowerCase().equals(txtShortAnswerInput.getText().toLowerCase());
 		}
 		return false;
 	}
@@ -101,6 +124,17 @@ public class QuestionPanel extends JPanel {
 		}
 		return null;
 	}
+	
+	private void cleanUpMultipleChoiceInputs() {
+		int size = rdbtnsAnswers.size();
+		for (int i = 0; i < size; i++) {
+			rdbtnsAnswers.pop().hide();
+		}
+	}
+	
+	private void cleanUpShortAnswerTextbox() {
+		txtShortAnswerInput.hide();
+	}
 
 	public String getCorrectAnswerMessage() {
 		return correctAnswerMessage;
@@ -109,5 +143,4 @@ public class QuestionPanel extends JPanel {
 	public String getIncorrectAnswerMessage() {
 		return incorrectAnswerMessage;
 	}
-
 }
