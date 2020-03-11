@@ -3,6 +3,13 @@ package maze;
 import questionDatabaseManagement.*;
 import triviamaze.ui.Cheats;
 
+/**
+ * Maze class that will hold a Room[][] that will represent a maze Will be used
+ * in the GUI to provide functionality to the maze portion of the game
+ * 
+ * @author Jon
+ *
+ */
 public class Maze {
 
 	private Room[][] maze;
@@ -21,7 +28,7 @@ public class Maze {
 	 */
 	public Maze(int x, int y, Location startLocation, Location endLocation) {
 		qg = new QuestionGetter("jdbc:sqlite:Trivia Questions.db");
-		this.maze = generateMaze(4, 4);
+		this.maze = generateMaze(x, y);
 		this.playerLocation = startLocation;
 		this.startLocation = startLocation;
 		this.endLocation = endLocation;
@@ -43,24 +50,25 @@ public class Maze {
 		Room movedTo = null;
 		switch (dir) {
 		case UP:
-			this.playerLocation = new Location(currLocation.getXCoord(), currLocation.getYCoord() - 1);
+			goTo = new Location(currLocation.getXCoord(), currLocation.getYCoord() - 1);
 			movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord() - 1];
 			break;
 		case DOWN:
-			this.playerLocation = new Location(currLocation.getXCoord(), currLocation.getYCoord() + 1);
+			goTo = new Location(currLocation.getXCoord(), currLocation.getYCoord() + 1);
 			movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord() + 1];
 			break;
 		case LEFT:
-			this.playerLocation = new Location(currLocation.getXCoord() - 1, currLocation.getYCoord());
+			goTo = new Location(currLocation.getXCoord() - 1, currLocation.getYCoord());
 			movedTo = this.maze[currLocation.getXCoord() - 1][currLocation.getYCoord()];
 			break;
 
 		case RIGHT:
-			this.playerLocation = new Location(currLocation.getXCoord() + 1, currLocation.getYCoord());
+			goTo = new Location(currLocation.getXCoord() + 1, currLocation.getYCoord());
 			movedTo = this.maze[currLocation.getXCoord() + 1][currLocation.getYCoord()];
 			break;
 		}
-
+		// move the player to the location
+		this.playerLocation = goTo;
 	}
 
 	/**
@@ -71,29 +79,17 @@ public class Maze {
 	 * @return boolean array telling us if directions up, down, left, right are
 	 *         viable or not
 	 */
-	public boolean[] checkSurroundingRooms(Location loc) {
+	public boolean[] checkSurroundingRooms() {
 		// up down left right
-		boolean[] doors = { false, false, false, false };
-		Room currRoom = getRoom(loc);
-		Location goTo = null;
-		Room movedTo = null;
-		/*
-		 * switch( dir ) { case UP: goTo = new
-		 * Location(currLocation.getXCoord(),currLocation.getYCoord()-1); movedTo =
-		 * this.maze[currLocation.getXCoord()][currLocation.getYCoord()-1]; break; case
-		 * DOWN: goTo = new
-		 * Location(currLocation.getXCoord(),currLocation.getYCoord()+1); movedTo =
-		 * this.maze[currLocation.getXCoord()][currLocation.getYCoord()+1]; break; case
-		 * LEFT: goTo = new
-		 * Location(currLocation.getXCoord()-1,currLocation.getYCoord()); movedTo =
-		 * this.maze[currLocation.getXCoord()-1][currLocation.getYCoord()]; break;
-		 * 
-		 * case RIGHT: goTo = new
-		 * Location(currLocation.getXCoord()+1,currLocation.getYCoord()); movedTo =
-		 * this.maze[currLocation.getXCoord()+1][currLocation.getYCoord()]; break; }
-		 */
-		playerLocation = goTo;
-		return doors;
+		boolean[] rooms = { true, true, true, true };
+
+		// check rooms around player location
+		rooms[0] = checkRoom(MovementDirection.UP);
+		rooms[1] = checkRoom(MovementDirection.DOWN);
+		rooms[2] = checkRoom(MovementDirection.LEFT);
+		rooms[3] = checkRoom(MovementDirection.RIGHT);
+
+		return rooms;
 	}
 
 	/**
@@ -154,16 +150,31 @@ public class Maze {
 	}
 
 	/**
+	 * Gets the question in specified room
+	 * @param room room with the question we want
+	 * @return Question from the specified room
+	 */
+	public Question getRoomQuestion( Room room ) {
+		return room.getQuestion();
+	}
+	
+	/**
 	 * Gets the question from specified coordinates
-	 * 
 	 * @param x x-coordinate of question we want
 	 * @param y y-coordinate of question we want
 	 * @return The specified question from the room
 	 */
-
+	public Question getRoomQuestion( int x, int y ) {
+		return this.maze[x][y].getQuestion();
+	}
+	
 	public boolean hasValidPathToEnd() {
-
-		return true;
+		boolean goodPath = false;
+		if (traverseMaze(this.playerLocation.getXCoord(), this.playerLocation.getYCoord())) {
+			goodPath = true;
+		}
+		resetExplored();
+		return goodPath;
 	}
 
 	/**
@@ -195,6 +206,27 @@ public class Maze {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Checks if a room is permanently locked at specified coordinates
+	 * 
+	 * @param x x-coordinate of room to check
+	 * @param y y-coordinate of room to check
+	 * @return boolean value that specifies if the room is locked
+	 */
+	public boolean isRoomPermaLocked(int x, int y) {
+		return maze[x][y].isRoomPermaLocked();
+	}
+
+	/**
+	 * Checks if a room is permanently locked at specified Location
+	 * 
+	 * @param loc Location of the room we want to check
+	 * @return boolean value that specifies if the room is locked
+	 */
+	public boolean isRoomPermaLocked(Location loc) {
+		return maze[loc.getXCoord()][loc.getYCoord()].isRoomPermaLocked();
 	}
 
 	/**
@@ -235,16 +267,7 @@ public class Maze {
 	public Location getPlayerLocation() {
 		return this.playerLocation;
 	}
-
-	public Location getEndLocation() {
-		return this.endLocation;
-	}
-
-	public boolean isPlayerAtExit() {
-		return this.playerLocation.getXCoord() == this.endLocation.getXCoord()
-				&& this.playerLocation.getYCoord() == this.endLocation.getYCoord();
-	}
-
+	
 	/**
 	 * Generates a Room[][] that will represent the maze, and will add a question
 	 * into the room as they're created
@@ -260,22 +283,98 @@ public class Maze {
 				m[i][j] = new Room(new Location(i, j));
 			}
 		}
-		return m;
+		return maze;
 	}
 
-	public Location getAdjacentRoomLocation(MovementDirection dir) {
-		switch (dir) {
-		case UP:
-			return new Location(playerLocation.getXCoord(), playerLocation.getYCoord() - 1);
-		case DOWN:
-			return new Location(playerLocation.getXCoord(), playerLocation.getYCoord() + 1);
-		case LEFT:
-			return new Location(playerLocation.getXCoord() - 1, playerLocation.getYCoord());
-		case RIGHT:
-			return new Location(playerLocation.getXCoord() + 1, playerLocation.getYCoord());
+	/**
+	 * Will check a certain direction from the room to see if it could be a valid
+	 * move
+	 * 
+	 * @param dir Direction in which the player will move
+	 * @return boolean stating if it is a valid move
+	 */
+	private boolean checkRoom(MovementDirection dir) {
+
+		Room movedTo = null;
+		Location currLocation = this.playerLocation;
+		boolean notOutOfBounds = true;
+
+		try {
+			switch (dir) {
+			case UP:
+				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord() - 1];
+				break;
+			case DOWN:
+				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord() + 1];
+				break;
+			case LEFT:
+				movedTo = this.maze[currLocation.getXCoord() - 1][currLocation.getYCoord()];
+				break;
+
+			case RIGHT:
+				movedTo = this.maze[currLocation.getXCoord() + 1][currLocation.getYCoord()];
+				break;
+			}
+		} catch (Exception e) {
+			notOutOfBounds = false;
 		}
 
-		return new Location(0, 0);
+		return notOutOfBounds;
+	}
+
+	/**
+	 * Backtracking algorithm to check if there is a path to the end of the maze,
+	 * checking for perma-locked rooms
+	 * 
+	 * @param x x-coordinate to start search at
+	 * @param y y-coordinate to start search at
+	 * @return if there is a path or not
+	 */
+	private boolean traverseMaze(int xCoord, int yCoord) {
+
+		int maxX = this.maze.length;
+		int maxY = this.maze[0].length;
+
+		int endX = this.endLocation.getXCoord();
+		int endY = this.endLocation.getYCoord();
+
+		if ((xCoord == endX - 1) && (yCoord == endY - 1)) {
+			this.maze[xCoord][yCoord].setExplore(true);
+			return true;
+		}
+
+		// how should I format this
+		if (xCoord >= 0 && yCoord >= 0 && xCoord < maxX && yCoord < maxY && !this.maze[xCoord][yCoord].isExplored()
+				&& !this.maze[xCoord][yCoord].isRoomPermaLocked()) {
+
+			this.maze[xCoord][yCoord].setExplore(true);
+			if (traverseMaze(xCoord, yCoord - 1)) {
+				return true;
+			}
+			if (traverseMaze(xCoord, yCoord + 1)) {
+				return true;
+			}
+			if (traverseMaze(xCoord - 1, yCoord)) {
+				return true;
+			}
+			if (traverseMaze(xCoord + 1, yCoord)) {
+				return true;
+			}
+			this.maze[xCoord][yCoord].setExplore(false);
+			return false;
+		}
+		return false;
+	}
+
+	/**
+	 * Will reset the explored field in both the trace and the maze
+	 */
+	private void resetExplored() {
+		for (int i = 0; i < this.maze.length; i++) {
+			for (int j = 0; j < this.maze[0].length; j++) {
+				this.maze[i][j].setExplore(false);
+			}
+		}
 	}
 
 }
