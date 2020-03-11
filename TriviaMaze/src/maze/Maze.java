@@ -2,10 +2,10 @@ package maze;
 
 import questionDatabaseManagement.*;
 
-
 /**
- * Maze class that will hold a Room[][] that will represent a maze
- * Will be used in the GUI to provide functionality to the maze portion of the game
+ * Maze class that will hold a Room[][] that will represent a maze Will be used
+ * in the GUI to provide functionality to the maze portion of the game
+ * 
  * @author Jon
  *
  */
@@ -146,27 +146,6 @@ public class Maze {
 	}
 
 	/**
-	 * Gets the question in specified room
-	 * 
-	 * @param room room with the question we want
-	 * @return Question from the specified room
-	 */
-	public Question getRoomQuestion(Room room) {
-		return room.getQuestion();
-	}
-
-	/**
-	 * Gets the question from specified coordinates
-	 * 
-	 * @param x x-coordinate of question we want
-	 * @param y y-coordinate of question we want
-	 * @return The specified question from the room
-	 */
-	public Question getRoomQuestion(int x, int y) {
-		return this.maze[x][y].getQuestion();
-	}
-
-	/**
 	 * Will check the solveMaze helper method to see if there is a valid path. Will
 	 * reset both the maze and mazeTrace explored fields once done. Will search for
 	 * path from current Player Location
@@ -286,7 +265,7 @@ public class Maze {
 		Room[][] maze = new Room[x][y];
 		for (int i = 0; i < x; i++) {
 			for (int j = 0; j < y; j++) {
-				maze[i][j] = new Room(qg.getQuestion(), new Location(i, j));
+				maze[i][j] = new Room(new Location(i, j));
 			}
 		}
 		return maze;
@@ -327,7 +306,7 @@ public class Maze {
 
 		return notOutOfBounds;
 	}
-	
+
 	/**
 	 * Backtracking algorithm to check if there is a path to the end of the maze,
 	 * checking for perma-locked rooms
@@ -352,7 +331,7 @@ public class Maze {
 		// how should I format this
 		if (xCoord >= 0 && yCoord >= 0 && xCoord < maxX && yCoord < maxY && !this.maze[xCoord][yCoord].isExplored()
 				&& !this.maze[xCoord][yCoord].isRoomPermaLocked()) {
-			
+
 			this.maze[xCoord][yCoord].setExplore(true);
 			if (traverseMaze(xCoord, yCoord - 1)) {
 				return true;
