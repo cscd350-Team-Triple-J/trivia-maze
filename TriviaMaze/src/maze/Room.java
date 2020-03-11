@@ -1,6 +1,12 @@
 package maze;
 import questionDatabaseManagement.*;
 
+/**
+ * Class to represent a room in the Maze
+ * Holds a question, location, and several boolean fields for utility
+ * @author Jon
+ *
+ */
 public class Room {
 
 	private boolean isRoomLocked;
@@ -23,38 +29,58 @@ public class Room {
 		isExplored = false;
 	}
 	
+	/**
+	 * @return question that is assigned to the room
+	 */
 	public Question getQuestion() {
 		return this.question;
 	}
 	
+	/**
+	 * @return boolean that says if the room is locked or not
+	 */
 	public boolean isRoomLocked() {
 		return this.isRoomLocked;
 	}
 	
-	public void setRoomLocked( boolean isRoomLocked ) {
-		this.isRoomLocked = isRoomLocked;
-	}
-	
+	/**
+	 * @return boolean that will say if the room has been permanently locked
+	 */
 	public boolean isRoomPermaLocked() {
 		return this.isRoomPermaLocked;
 	}
 	
+	/**
+	 * @param isRoomPermaLocked boolean value that will set the room as permanently locked
+	 */
 	public void setRoomPermaLocked( boolean isRoomPermaLocked ) {
 		this.isRoomPermaLocked = isRoomPermaLocked;
 	}
 	
+	/**
+	 * sets boolean isRoomLocked to true, simulating locking the door
+	 */
 	public void lockRoom() {
 		this.isRoomLocked = true;
 	}
 	
+	/**
+	 * sets boolean isRoomLocked to false, simulating unlocking the door
+	 */
 	public void unlockRoom() {
 		this.isRoomLocked = false;
 	}
 	
+	/**
+	 * @return boolean value used in Backtracking to see if we have been in the room yet
+	 */
 	public boolean isExplored() {
 		return this.isExplored;
 	}
 	
+	/**
+	 * @param isExplored set if we have explored the room or not in backtracking
+	 */
 	public void setExplore( boolean isExplored ) {
 		this.isExplored = isExplored;
 	}
