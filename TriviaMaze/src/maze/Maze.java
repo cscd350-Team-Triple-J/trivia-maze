@@ -1,7 +1,6 @@
 package maze;
 
 import questionDatabaseManagement.*;
-import triviamaze.ui.Cheats;
 
 /**
  * Maze class that will hold a Room[][] that will represent a maze Will be used
@@ -48,6 +47,7 @@ public class Maze {
 	public void move(MovementDirection dir) throws IndexOutOfBoundsException {
 		Location currLocation = this.playerLocation;
 		Room movedTo = null;
+		Location goTo = null;
 		switch (dir) {
 		case UP:
 			goTo = new Location(currLocation.getXCoord(), currLocation.getYCoord() - 1);
@@ -151,23 +151,14 @@ public class Maze {
 
 	/**
 	 * Gets the question in specified room
+	 * 
 	 * @param room room with the question we want
 	 * @return Question from the specified room
 	 */
-	public Question getRoomQuestion( Room room ) {
-		return room.getQuestion();
+	public Question getQuestion(Room room) {
+		return qg.getQuestion();
 	}
-	
-	/**
-	 * Gets the question from specified coordinates
-	 * @param x x-coordinate of question we want
-	 * @param y y-coordinate of question we want
-	 * @return The specified question from the room
-	 */
-	public Question getRoomQuestion( int x, int y ) {
-		return this.maze[x][y].getQuestion();
-	}
-	
+
 	public boolean hasValidPathToEnd() {
 		boolean goodPath = false;
 		if (traverseMaze(this.playerLocation.getXCoord(), this.playerLocation.getYCoord())) {
@@ -267,7 +258,7 @@ public class Maze {
 	public Location getPlayerLocation() {
 		return this.playerLocation;
 	}
-	
+
 	/**
 	 * Generates a Room[][] that will represent the maze, and will add a question
 	 * into the room as they're created

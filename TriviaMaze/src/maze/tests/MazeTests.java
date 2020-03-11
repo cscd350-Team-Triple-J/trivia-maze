@@ -19,10 +19,10 @@ class MazeTests {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		test = new Maze( 2,2, mazeStart, mazeEnd );
-		t = new Maze( 3, 3, mazeStart, new Location(3,3) );
-		test2 = new Maze( 4,4, mazeStart, new Location(4,4) );
-		test3 = new Maze( 5,7, mazeStart, new Location(5,7) );
+		test = new Maze(2, 2, mazeStart, mazeEnd);
+		t = new Maze(3, 3, mazeStart, new Location(3, 3));
+		test2 = new Maze(4, 4, mazeStart, new Location(4, 4));
+		test3 = new Maze(5, 7, mazeStart, new Location(5, 7));
 		maze = test.getMaze();
 	}
 
@@ -43,7 +43,7 @@ class MazeTests {
 
 	@Test
 	void testMoveLeft() {
-		test.setPlayerLocation( new Location(1,0) );
+		test.setPlayerLocation(new Location(1, 0));
 		test.move(MovementDirection.LEFT);
 		assertTrue(test.getPlayerLocation().equals(new Location(0, 0)));
 		IndexOutOfBoundsException thrown = assertThrows(IndexOutOfBoundsException.class,
@@ -52,7 +52,7 @@ class MazeTests {
 
 	@Test
 	void testMoveUp() {
-		test.setPlayerLocation( new Location(0,1) );
+		test.setPlayerLocation(new Location(0, 1));
 		test.move(MovementDirection.UP);
 		assertTrue(test.getPlayerLocation().equals(new Location(0, 0)));
 		IndexOutOfBoundsException thrown = assertThrows(IndexOutOfBoundsException.class,
@@ -108,74 +108,58 @@ class MazeTests {
 		assertFalse(test.roomExists(0, 2));
 		assertFalse(test.roomExists(2, 2));
 	}
-	
-	@Test
-	void testGetRoomQuestion() {
-		Room rm = maze[0][0];
-		Room rm1 = maze[1][0];
-		Room rm2 = maze[0][1];
-		Room rm3 = maze[1][1];
-		assertTrue( rm.getQuestion().equals(test.getRoomQuestion(0, 0)) );
-		assertTrue( rm1.getQuestion().equals(test.getRoomQuestion(1, 0)) );
-		assertTrue( rm2.getQuestion().equals(test.getRoomQuestion(0, 1)) );
-		assertTrue( rm3.getQuestion().equals(test.getRoomQuestion(1, 1)) );
-		assertTrue( rm.getQuestion().equals( test.getRoomQuestion(rm)) );
-		assertTrue( rm1.getQuestion().equals(test.getRoomQuestion(rm1)) );
-		assertTrue( rm2.getQuestion().equals(test.getRoomQuestion(rm2)) );
-		assertTrue( rm3.getQuestion().equals(test.getRoomQuestion(rm3)) );
-	}
-	
+
 	@Test
 	void testCheckRoom() {
 		boolean[] rooms = test.checkSurroundingRooms();
-		assertFalse( rooms[0] );
-		assertTrue( rooms[1] );
-		assertFalse( rooms[2] );
-		assertTrue( rooms[3] );
-		
+		assertFalse(rooms[0]);
+		assertTrue(rooms[1]);
+		assertFalse(rooms[2]);
+		assertTrue(rooms[3]);
+
 		test2.move(MovementDirection.RIGHT);
 		test2.move(MovementDirection.DOWN);
 		rooms = test2.checkSurroundingRooms();
-		assertTrue( rooms[0] );
-		assertTrue( rooms[1] );
-		assertTrue( rooms[2] );
-		assertTrue( rooms[3] );
+		assertTrue(rooms[0]);
+		assertTrue(rooms[1]);
+		assertTrue(rooms[2]);
+		assertTrue(rooms[3]);
 	}
-	
+
 	@Test
 	void testHasValidPath() {
 		// test blank mazes
 		assertTrue(test.hasValidPathToEnd());
-		assertTrue(test2.hasValidPathToEnd() );
+		assertTrue(test2.hasValidPathToEnd());
 		assertTrue(test3.hasValidPathToEnd());
 		assertTrue(t.hasValidPathToEnd());
-		
-		//set up block @ start so that test has no valid path
+
+		// set up block @ start so that test has no valid path
 		t.getMaze()[0][1].setRoomPermaLocked(true);
 		t.getMaze()[1][0].setRoomPermaLocked(true);
-		assertFalse( t.hasValidPathToEnd() );
-		
-		//unblock one room to open path
+		assertFalse(t.hasValidPathToEnd());
+
+		// unblock one room to open path
 		t.getMaze()[1][0].setRoomPermaLocked(false);
-		assertTrue( t.hasValidPathToEnd() );
-		
-		//unblock other room by start, and block off the end
+		assertTrue(t.hasValidPathToEnd());
+
+		// unblock other room by start, and block off the end
 		t.getMaze()[0][1].setRoomPermaLocked(false);
 		t.getMaze()[1][2].setRoomPermaLocked(true);
 		t.getMaze()[2][1].setRoomPermaLocked(true);
-		assertFalse( t.hasValidPathToEnd() );
-		
-		//testing with changed player location
-		test3.setPlayerLocation( new Location(3,4) );
-		assertTrue( test3.hasValidPathToEnd() );
+		assertFalse(t.hasValidPathToEnd());
+
+		// testing with changed player location
+		test3.setPlayerLocation(new Location(3, 4));
+		assertTrue(test3.hasValidPathToEnd());
 		test3.getMaze()[2][4].setRoomPermaLocked(true);
 		test3.getMaze()[4][4].setRoomPermaLocked(true);
 		test3.getMaze()[3][3].setRoomPermaLocked(true);
 		test3.getMaze()[3][5].setRoomPermaLocked(true);
-		assertFalse( test3.hasValidPathToEnd() );
+		assertFalse(test3.hasValidPathToEnd());
 		test3.getMaze()[3][5].setRoomPermaLocked(false);
-		assertTrue( test3.hasValidPathToEnd() );
-		
+		assertTrue(test3.hasValidPathToEnd());
+
 	}
 
 }
