@@ -4,6 +4,7 @@ import questionDatabaseManagement.*;
 public class Maze {
 
 	private Room[][] maze;
+	private Room[][] mazeTrace;
 	private Location playerLocation;
 	private Location startLocation;
 	private Location endLocation;
@@ -19,6 +20,7 @@ public class Maze {
 	public Maze( int x, int y, Location startLocation, Location endLocation ) {
 		qg = new QuestionGetter("jdbc:sqlite:Trivia Questions.db");
 		this.maze = generateMaze(x,y);
+		this.mazeTrace = copyMaze(this.maze);
 		this.playerLocation = startLocation;
 		this.startLocation = startLocation;
 		this.endLocation = endLocation;
@@ -145,9 +147,65 @@ public class Maze {
 		return this.maze[x][y].getQuestion();
 	}
 	
+	
 	public boolean hasValidPathToEnd() {
+		if( solveMaze( this.playerLocation.getXCoord(), this.playerLocation.getYCoord() ) ) {
+			resetExplored();
+			return true;
+		}
+		resetExplored();
+		return false;
+	}
+	
+	/**
+	 * Backtracking algorithm to check if there is a path to the end of the maze, checking for perma-locked rooms
+	 * @param x x-coordinate to start search at
+	 * @param y y-coordinate to start search at
+	 * @return if there is a path or not
+	 */
+	public boolean solveMaze( int x, int y ) {
+		int xCoord = x;
+		int yCoord = y;
+		int maxX = this.maze.length;
+		int maxY = this.maze[0].length;
+		int endX = this.endLocation.getXCoord();
+		int endY = this.endLocation.getYCoord();
 		
-		return true;
+		if( (xCoord == endX-1 ) && (yCoord == endY-1 ) ) {
+			this.mazeTrace[xCoord][yCoord].setExplore(true);
+			return true;
+		}
+		
+		if(xCoord >= 0 && yCoord >= 0 && xCoord < maxX && yCoord < maxY && !this.maze[xCoord][yCoord].isExplored() && !this.maze[xCoord][yCoord].isRoomPermaLocked() && !this.mazeTrace[xCoord][yCoord].isExplored() ) {
+			this.mazeTrace[xCoord][yCoord].setExplore(true);
+			if( solveMaze(x+1,y) ) {
+				return true;
+			}
+			if( solveMaze(x-1,y) ) {
+				return true;
+			}
+			if( solveMaze(x,y+1) ) {
+				return true;
+			}
+			if( solveMaze(x,y-1) ) {
+				return true;
+			}
+			this.mazeTrace[xCoord][yCoord].setExplore(false);
+			return false;
+		}
+		return false;
+	}
+	
+	/**
+	 * Will reset the explored field in both the trace and the maze
+	 */
+	public void resetExplored() {
+		for( int i = 0; i < this.maze.length; i++ ) {
+			for( int j = 0; j < this.maze[0].length; j++ ) {
+				this.maze[i][j].setExplore(false);
+				this.mazeTrace[i][j].setExplore(false);
+			}
+		}
 	}
 	
 	/**
@@ -285,5 +343,24 @@ public class Maze {
 		}
 				
 		return notOutOfBounds;
+	}
+	
+	private Room[][] copyMaze( Room[][] maze ){
+		Room[][] copy = new Room[maze.length][maze[0].length];
+		for( int i = 0; i < maze.length; i++ ) {
+			for( int j = 0; j < maze[0].length; j++ ) {
+				copy[i][j] = maze[i][j];
+			}
+		}
+		return copy;
+	}
+	
+	private void clearTrace( Room[][] trace ){
+		for( int i = 0; i < this.mazeTrace.length; i++ ) {
+			for( int j = 0; j < this.mazeTrace[0].length; j++ ) {
+				this.maze[i][j].setExplore(false);
+				this.mazeTrace[i][j].setExplore(false);
+			}
+		}
 	}
 }

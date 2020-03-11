@@ -5,6 +5,7 @@ public class Room {
 
 	private boolean isRoomLocked;
 	private boolean isRoomPermaLocked;
+	private boolean isExplored;
 	private Location location;
 	private Question question;
 	
@@ -19,6 +20,7 @@ public class Room {
 		this.location = location;
 		isRoomLocked = true;
 		isRoomPermaLocked = false;
+		isExplored = false;
 	}
 	
 	public Question getQuestion() {
@@ -47,6 +49,14 @@ public class Room {
 	
 	public void unlockRoom() {
 		this.isRoomLocked = false;
+	}
+	
+	public boolean isExplored() {
+		return this.isExplored;
+	}
+	
+	public void setExplore( boolean isExplored ) {
+		this.isExplored = isExplored;
 	}
 	
 }
