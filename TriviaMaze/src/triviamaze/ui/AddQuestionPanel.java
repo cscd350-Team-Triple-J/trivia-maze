@@ -232,7 +232,6 @@ public class AddQuestionPanel extends JPanel {
 		
 	}
 
-	// MULTIPLE CHOICE STUFF
 	private void showMultipleChoiceInput() {
 		for (JTextField field : multipleChoiceAnswers) {
 			field.setVisible(true);
@@ -284,9 +283,7 @@ public class AddQuestionPanel extends JPanel {
 		
 		return temp;
 	}
-	// END MULTIPLE CHOICE STUFF
 
-	// BEGIN TRUE/FALSE STUFF
 	private void showTrueFalseInput() {
 		for (JRadioButton btn : correctTrueFalseAnswer) {
 			btn.setVisible(true);
@@ -306,9 +303,7 @@ public class AddQuestionPanel extends JPanel {
 			return "T";
 		return "F";
 	}
-	// END TRUE/FALSE STUFF
 
-	// BEGIN SHORT ANSWER
 	private void showShortAnswerInput() {
 		txtShortAnswer.setVisible(true);
 	}
