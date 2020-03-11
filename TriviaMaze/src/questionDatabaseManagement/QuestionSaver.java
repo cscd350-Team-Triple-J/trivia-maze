@@ -31,7 +31,7 @@ public class QuestionSaver {
 			String sql = "INSERT INTO Questions (ID,Type,Question,CorrectAnswer) VALUES (" + ID + ",'" + type + "','"
 					+ question + "','" + correctAnswer + "');";
 			s.execute(sql);
-			sql = "INSERT INTO QuestionComments (ID,CommentWrong,CommentRight) VALUES (" + ID + ",'" + commentWrong
+			sql = "INSERT INTO QuestionComments (ID,CommentWrong,CommentCorrect) VALUES (" + ID + ",'" + commentWrong
 					+ "','" + commentRight + "');";
 			s.execute(sql);
 			if (type.equals("MC")) {

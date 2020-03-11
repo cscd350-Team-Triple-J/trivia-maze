@@ -26,26 +26,26 @@ public class AddQuestionPanel extends JPanel {
 	private final ButtonGroup trueFalseButtonGroup = new ButtonGroup();
 
 	JComboBox comboBox;
-	
-	QuestionSaver saver; 
-	
+
+	QuestionSaver saver;
+
 	private JTextField txtCommentRight;
 	private JTextField txtCommentWrong;
 
 	private JTextField txtShortAnswer;
 	private JTextField txtQuestion;
-	
+
 	private JTextField[] multipleChoiceAnswers;
 	private JRadioButton[] correctMultipleChoiceAnswer;
-	
+
 	private JRadioButton[] correctTrueFalseAnswer;
 	private JLabel lblCorrectAnswer;
-	
+
 	public AddQuestionPanel() {
 		setLayout(null);
 
-		saver = new QuestionSaver("");
-		
+		saver = new QuestionSaver("jdbc:sqlite:Trivia Questions.db");
+
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Multiple Choice", "True/False", "Short Answer" }));
 		comboBox.setBounds(218, 11, 121, 20);
@@ -67,7 +67,7 @@ public class AddQuestionPanel extends JPanel {
 		JButton btnNewButton = new JButton("Save Question");
 		btnNewButton.setBounds(218, 327, 121, 23);
 		add(btnNewButton);
-		
+
 		initializeMultipleChoiceInputs();
 		initializeTrueFalseInputs();
 		initializeShortAnswerInputs();
@@ -125,25 +125,25 @@ public class AddQuestionPanel extends JPanel {
 		add(rdbtnCorrectAnswerTwo);
 		correctMultipleChoiceAnswer[1] = rdbtnCorrectAnswerTwo;
 		multipleChoiceButtonGroup.add(rdbtnCorrectAnswerTwo);
-		
+
 		JRadioButton rdbtnCorrectAnswerThree = new JRadioButton("");
 		rdbtnCorrectAnswerThree.setBounds(218, 174, 21, 23);
 		add(rdbtnCorrectAnswerThree);
 		correctMultipleChoiceAnswer[2] = rdbtnCorrectAnswerThree;
 		multipleChoiceButtonGroup.add(rdbtnCorrectAnswerThree);
-		
+
 		JRadioButton rdbtnCorrectAnswerFour = new JRadioButton("");
 		rdbtnCorrectAnswerFour.setBounds(218, 144, 21, 23);
 		add(rdbtnCorrectAnswerFour);
 		correctMultipleChoiceAnswer[3] = rdbtnCorrectAnswerFour;
 		multipleChoiceButtonGroup.add(rdbtnCorrectAnswerFour);
-		
+
 		JRadioButton rdbtnCorrectAnswerFive = new JRadioButton("");
 		rdbtnCorrectAnswerFive.setBounds(218, 207, 21, 23);
 		add(rdbtnCorrectAnswerFive);
 		correctMultipleChoiceAnswer[4] = rdbtnCorrectAnswerFive;
 		multipleChoiceButtonGroup.add(rdbtnCorrectAnswerFive);
-		
+
 		lblCorrectAnswer = new JLabel("Correct Answer");
 		lblCorrectAnswer.setBounds(160, 68, 110, 14);
 		add(lblCorrectAnswer);
@@ -151,37 +151,35 @@ public class AddQuestionPanel extends JPanel {
 
 	private void initializeTrueFalseInputs() {
 		correctTrueFalseAnswer = new JRadioButton[2];
-		
+
 		JRadioButton rdbtnTrue = new JRadioButton("True");
 		rdbtnTrue.setBounds(218, 83, 110, 23);
 		add(rdbtnTrue);
 		correctTrueFalseAnswer[0] = rdbtnTrue;
 		trueFalseButtonGroup.add(rdbtnTrue);
-		
+
 		JRadioButton rdbtnFalse = new JRadioButton("False");
 		rdbtnFalse.setBounds(218, 114, 110, 23);
 		add(rdbtnFalse);
 		correctTrueFalseAnswer[1] = rdbtnFalse;
 		trueFalseButtonGroup.add(rdbtnFalse);
-		
+
 		txtQuestion = new JTextField();
 		txtQuestion.setText("Question");
 		txtQuestion.setBounds(218, 42, 121, 20);
 		add(txtQuestion);
 		txtQuestion.setColumns(10);
-		
+
 		hideTrueFalseInput();
 	}
-	
+
 	private void initializeShortAnswerInputs() {
 		txtShortAnswer = new JTextField();
 		txtShortAnswer.setText("AAAA");
 		txtShortAnswer.setBounds(218, 83, 121, 23);
 		add(txtShortAnswer);
 		txtShortAnswer.setColumns(10);
-		
 
-		
 		hideShortAnswerInput();
 	}
 
@@ -210,13 +208,13 @@ public class AddQuestionPanel extends JPanel {
 		String correctAnswer = "";
 		String commentWrong = txtCommentWrong.getText();
 		String commentRight = txtCommentRight.getText();
-		
-		switch ((String)comboBox.getSelectedItem()) {
+
+		switch ((String) comboBox.getSelectedItem()) {
 		case "Multiple Choice":
 			type = "MC";
 			correctAnswer = getMultipleChoiceCorrectAnswer();
 			String options = getMultipleChoiceAnswers();
-			return new MultipleChoiceQuestion(type,question,correctAnswer,commentWrong,commentRight, options);
+			return new MultipleChoiceQuestion(type, question, correctAnswer, commentWrong, commentRight, options);
 		case "True/False":
 			type = "TF";
 			correctAnswer = getTrueFalseCorrectAnswer();
@@ -227,9 +225,9 @@ public class AddQuestionPanel extends JPanel {
 			break;
 		default:
 		}
-		
-		return new Question(type,question,correctAnswer,commentWrong,commentRight);
-		
+
+		return new Question(type, question, correctAnswer, commentWrong, commentRight);
+
 	}
 
 	private void showMultipleChoiceInput() {
@@ -263,24 +261,24 @@ public class AddQuestionPanel extends JPanel {
 				correctAnswerIndex = i;
 				break;
 			}
-				
+
 		}
 		return multipleChoiceAnswers[correctAnswerIndex].toString();
 	}
-	
+
 	private String getMultipleChoiceAnswers() {
 		StringBuilder sb = new StringBuilder();
 		String temp = "";
-		
-		for(JTextField field: multipleChoiceAnswers) {
+
+		for (JTextField field : multipleChoiceAnswers) {
 			if (!field.getText().isEmpty())
 				sb.append(field.getText() + ",");
 		}
-		
-		if(!sb.toString().isEmpty()) {
+
+		if (!sb.toString().isEmpty()) {
 			temp = sb.substring(0, sb.length() - 2);
 		}
-		
+
 		return temp;
 	}
 
@@ -290,14 +288,14 @@ public class AddQuestionPanel extends JPanel {
 		}
 		correctMultipleChoiceAnswer[0].setSelected(true);
 	}
-	
+
 	private void hideTrueFalseInput() {
 		for (JRadioButton btn : correctTrueFalseAnswer) {
 			btn.setSelected(false);
 			btn.setVisible(false);
 		}
 	}
-	
+
 	private String getTrueFalseCorrectAnswer() {
 		if (correctTrueFalseAnswer[0].isSelected())
 			return "T";
@@ -307,25 +305,25 @@ public class AddQuestionPanel extends JPanel {
 	private void showShortAnswerInput() {
 		txtShortAnswer.setVisible(true);
 	}
-	
+
 	private void hideShortAnswerInput() {
 		txtShortAnswer.setVisible(false);
 		txtShortAnswer.setText("");
 	}
-	
+
 	private String getShortAnswerCorrectAnswer() {
 		return txtShortAnswer.getText();
 	}
-	
+
 	ActionListener SaveQuestionButton = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			saver.saveToDatabase(getQuestionFromInput());	
+			saver.saveToDatabase(getQuestionFromInput());
 		}
-		
+
 	};
-	
+
 	ActionListener QuestionTypeComboBox = new ActionListener() {
 
 		@Override

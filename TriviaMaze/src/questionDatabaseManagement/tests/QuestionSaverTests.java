@@ -67,9 +67,9 @@ public class QuestionSaverTests {
 			sql = "INSERT INTO MultipleChoice (ID,Options)\n" + "VALUES (1,'3,1,2,3');";
 			s.executeUpdate(sql);
 			sql = "CREATE TABLE QuestionComments(\n" + "   ID int PRIMARY KEY,\n" + "   CommentWrong text,\n"
-					+ "    CommentRight text" + ");";
+					+ "    CommentCorrect text" + ");";
 			s.executeUpdate(sql);
-			sql = "INSERT INTO QuestionComments (ID,CommentWrong,CommentRight)\n"
+			sql = "INSERT INTO QuestionComments (ID,CommentWrong,CommentCorrect)\n"
 					+ "VALUES (1,'CommentWrong1','CommentRight1');";
 			s.executeUpdate(sql);
 			s.close();
