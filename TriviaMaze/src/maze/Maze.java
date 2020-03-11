@@ -80,7 +80,7 @@ public class Maze {
 	 *         viable or not
 	 */
 	public boolean[] checkSurroundingRooms() {
-		// up down left right
+		// 					 up   down  left  right
 		boolean[] rooms = { true, true, true, true };
 
 		// check rooms around player location
@@ -209,7 +209,46 @@ public class Maze {
 	public boolean isRoomPermaLocked(int x, int y) {
 		return maze[x][y].isRoomPermaLocked();
 	}
+	
+	
+	public Location getEndLocation() {
+		return this.endLocation;
+	}
+	
+	public boolean isPlayerAtExit() {
+		return this.playerLocation.equals(this.endLocation);
+	}
 
+	public Location getAdjacentRoomLocation( MovementDirection dir ) {
+		
+		Room movedTo = null;
+		Location goTo = null;
+		Location currLocation = this.playerLocation;
+		try {
+			switch (dir) {
+			case UP:
+				goTo = new Location(currLocation.getXCoord(), currLocation.getYCoord() - 1);
+				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord() - 1];
+				break;
+			case DOWN:
+				goTo = new Location(currLocation.getXCoord(), currLocation.getYCoord() + 1);
+				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord() + 1];
+				break;
+			case LEFT:
+				goTo = new Location(currLocation.getXCoord()-1, currLocation.getYCoord());
+				movedTo = this.maze[currLocation.getXCoord() - 1][currLocation.getYCoord()];
+				break;
+
+			case RIGHT:
+				goTo = new Location(currLocation.getXCoord() + 1, currLocation.getYCoord());
+				movedTo = this.maze[currLocation.getXCoord() + 1][currLocation.getYCoord()];
+				break;
+			}
+		} catch (Exception e) {
+			
+		}
+		return goTo;
+	}
 	/**
 	 * Checks if a room is permanently locked at specified Location
 	 * 
@@ -229,6 +268,10 @@ public class Maze {
 	 */
 	public boolean isRoomLocked(int x, int y) {
 		return maze[x][y].isRoomLocked();
+	}
+	
+	public void permaLockRoom( Location loc ) {
+		
 	}
 
 	/**

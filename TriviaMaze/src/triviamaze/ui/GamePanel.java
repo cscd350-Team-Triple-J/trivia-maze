@@ -126,17 +126,14 @@ public class GamePanel extends JPanel {
 	}
 
 	private void enableMovementButtons() {
-		if (maze.roomExists(maze.getAdjacentRoomLocation(MovementDirection.UP))
-				&& !maze.isRoomLocked(maze.getAdjacentRoomLocation(MovementDirection.UP)))
+		boolean[] checkRooms = maze.checkSurroundingRooms();
+		if (checkRooms[0])
 			btnMoveUp.setEnabled(true);
-		if (maze.roomExists(maze.getAdjacentRoomLocation(MovementDirection.DOWN))
-				&& !maze.isRoomLocked(maze.getAdjacentRoomLocation(MovementDirection.DOWN)))
+		if (checkRooms[1])
 			btnMoveDown.setEnabled(true);
-		if (maze.roomExists(maze.getAdjacentRoomLocation(MovementDirection.LEFT))
-				&& !maze.isRoomLocked(maze.getAdjacentRoomLocation(MovementDirection.LEFT)))
+		if (checkRooms[2])
 			btnMoveLeft.setEnabled(true);
-		if (maze.roomExists(maze.getAdjacentRoomLocation(MovementDirection.RIGHT))
-				&& !maze.isRoomLocked(maze.getAdjacentRoomLocation(MovementDirection.RIGHT)))
+		if (checkRooms[3])
 			btnMoveRight.setEnabled(true);
 	}
 
@@ -156,8 +153,10 @@ public class GamePanel extends JPanel {
 		public void actionPerformed(ActionEvent event) {
 
 			if (panelQuestion.isAnswerCorrect()) {
-				panelMaze.setCurrentRoom(maze.getPlayerLocation(), maze.getAdjacentRoomLocation(currentDirection));
+				Location oldLocation = maze.getPlayerLocation();
 				maze.move(currentDirection);
+				panelMaze.setCurrentRoom(oldLocation, maze.getPlayerLocation());
+
 				JOptionPane.showMessageDialog(panelQuestion, "Correct!\n" + panelQuestion.getCorrectAnswerMessage());
 				if (maze.isPlayerAtExit()) {
 					endGameOptions(JOptionPane.showConfirmDialog(panelMaze, "You win! Do you want to play again?"));
@@ -167,7 +166,7 @@ public class GamePanel extends JPanel {
 				JOptionPane.showMessageDialog(panelQuestion,
 						"Incorrect!\n" + panelQuestion.getIncorrectAnswerMessage());
 				if (maze.hasValidPathToEnd()) {
-					maze.lockRoom(maze.getAdjacentRoomLocation(currentDirection));
+					maze.permaLockRoom(maze.getAdjacentRoomLocation(currentDirection));
 					panelMaze.setLockedRoom(maze.getAdjacentRoomLocation(currentDirection));
 				} else {
 					endGameOptions(JOptionPane.showConfirmDialog(panelMaze,
