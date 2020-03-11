@@ -67,6 +67,7 @@ public class AddQuestionPanel extends JPanel {
 		JButton btnNewButton = new JButton("Save Question");
 		btnNewButton.setBounds(218, 327, 121, 23);
 		add(btnNewButton);
+		btnNewButton.addActionListener(SaveQuestionButton);
 
 		initializeMultipleChoiceInputs();
 		initializeTrueFalseInputs();
