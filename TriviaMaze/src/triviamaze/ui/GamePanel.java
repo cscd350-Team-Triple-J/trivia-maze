@@ -126,7 +126,7 @@ public class GamePanel extends JPanel {
 	}
 
 	private void enableMovementButtons() {
-		boolean[] checkRooms = maze.checkSurroundingRooms();
+		boolean[] checkRooms = maze.checkSurroundingRooms(maze.getMaze());
 		if (checkRooms[0])
 			btnMoveUp.setEnabled(true);
 		if (checkRooms[1])
