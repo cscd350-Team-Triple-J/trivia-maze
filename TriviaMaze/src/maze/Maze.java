@@ -80,7 +80,7 @@ public class Maze {
 	 *         viable or not
 	 */
 	public boolean[] checkSurroundingRooms() {
-		// 					 up   down  left  right
+		// up down left right
 		boolean[] rooms = { true, true, true, true };
 
 		// check rooms around player location
@@ -209,18 +209,17 @@ public class Maze {
 	public boolean isRoomPermaLocked(int x, int y) {
 		return maze[x][y].isRoomPermaLocked();
 	}
-	
-	
+
 	public Location getEndLocation() {
 		return this.endLocation;
 	}
-	
+
 	public boolean isPlayerAtExit() {
 		return this.playerLocation.equals(this.endLocation);
 	}
 
-	public Location getAdjacentRoomLocation( MovementDirection dir ) {
-		
+	public Location getAdjacentRoomLocation(MovementDirection dir) {
+
 		Room movedTo = null;
 		Location goTo = null;
 		Location currLocation = this.playerLocation;
@@ -235,7 +234,7 @@ public class Maze {
 				movedTo = this.maze[currLocation.getXCoord()][currLocation.getYCoord() + 1];
 				break;
 			case LEFT:
-				goTo = new Location(currLocation.getXCoord()-1, currLocation.getYCoord());
+				goTo = new Location(currLocation.getXCoord() - 1, currLocation.getYCoord());
 				movedTo = this.maze[currLocation.getXCoord() - 1][currLocation.getYCoord()];
 				break;
 
@@ -245,10 +244,11 @@ public class Maze {
 				break;
 			}
 		} catch (Exception e) {
-			
+
 		}
 		return goTo;
 	}
+
 	/**
 	 * Checks if a room is permanently locked at specified Location
 	 * 
@@ -269,9 +269,9 @@ public class Maze {
 	public boolean isRoomLocked(int x, int y) {
 		return maze[x][y].isRoomLocked();
 	}
-	
-	public void permaLockRoom( Location loc ) {
-		
+
+	public void permaLockRoom(Location loc) {
+
 	}
 
 	/**
@@ -303,8 +303,7 @@ public class Maze {
 	}
 
 	/**
-	 * Generates a Room[][] that will represent the maze, and will add a question
-	 * into the room as they're created
+	 * Generates a Room[][] that will represent the maze
 	 * 
 	 * @param x how many columns that will be in the maze
 	 * @param y how many rows that will be in the maze
@@ -317,7 +316,7 @@ public class Maze {
 				m[i][j] = new Room(new Location(i, j));
 			}
 		}
-		return maze;
+		return m;
 	}
 
 	/**
@@ -344,7 +343,6 @@ public class Maze {
 			case LEFT:
 				movedTo = this.maze[currLocation.getXCoord() - 1][currLocation.getYCoord()];
 				break;
-
 			case RIGHT:
 				movedTo = this.maze[currLocation.getXCoord() + 1][currLocation.getYCoord()];
 				break;

@@ -99,10 +99,7 @@ public class GamePanel extends JPanel {
 		panelMaze.setEndRoom(maze.getEndLocation());
 
 		panelQuestion.setVisible(false);
-		btnMoveUp.setEnabled(false);
-		btnMoveDown.setEnabled(false);
-		btnMoveLeft.setEnabled(false);
-		btnMoveRight.setEnabled(false);
+		disableMovementButtons();
 		btnSubmitAnswer.setEnabled(false);
 		enableMovementButtons();
 	}
