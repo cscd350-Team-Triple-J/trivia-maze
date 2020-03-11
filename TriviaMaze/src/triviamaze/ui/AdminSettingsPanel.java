@@ -10,18 +10,24 @@ public class AdminSettingsPanel extends JPanel {
 		setLayout(null);
 		
 		JTabbedPane adminSettingsCard = new JTabbedPane(JTabbedPane.TOP);
-		adminSettingsCard.setBounds(0, 0, 450, 300);
+		adminSettingsCard.setBounds(0, 0, 600, 450);
 		add(adminSettingsCard);
 		
 		JPanel newAdminPanel = new NewAdministratorPanel();
 		adminSettingsCard.addTab("New Admin", null, newAdminPanel, null);
 		
-		JPanel newMultipleChoiceQuestionPanel = new AddMultipleChoiceQuestionPanel();
-		adminSettingsCard.addTab("New Multiple Choice Question", null, newMultipleChoiceQuestionPanel, null);
+		JPanel newQuestionPanel = new AddQuestionPanel();
+		adminSettingsCard.addTab("New Question", null, newQuestionPanel, null);
+
 		
-		JPanel newTrueFalseQuestionPanel = new AddTrueFalseQuestionPanel();
-		adminSettingsCard.addTab("New True/False Question", null, newTrueFalseQuestionPanel, null);
-		
-		
+//		JTabbedPane adminSettingsCard = new JTabbedPane(JTabbedPane.TOP);
+//		adminSettingsCard.setBounds(0, 0, 474, 300);
+//		add(adminSettingsCard);
+//		
+//		JPanel newAdminPanel = new NewAdministratorPanel();
+//		adminSettingsCard.addTab("New Admin", null, newAdminPanel, null);
+//		
+//		JPanel newQuestionPanel = new AddQuestionPanel();
+//		adminSettingsCard.addTab("New Question", null, newQuestionPanel, null);
 	}
 }

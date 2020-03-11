@@ -63,18 +63,12 @@ public class QuestionPanel extends JPanel {
 		case ("SA"):
 			break;
 		}
-		int size = rdbtnsAnswers.size();
-		for (int i = 0; i < size; i++) {
-			rdbtnsAnswers.pop().hide();
-		}
 		rdbtnsAnswers.clear();
 		for (int i = 50; i <= answers.length * 50; i += 50) {
-			JRadioButton rdbtnAnswer = new JRadioButton();
-			rdbtnAnswer.setText(answers[(i / 50) - 1]);
+			JRadioButton rdbtnAnswer = new JRadioButton(answers[i / 50 - 1]);
 			buttonGroup.add(rdbtnAnswer);
 			rdbtnAnswer.setBounds(0, i + 50, 200, 50);
 			rdbtnAnswer.setVisible(true);
-			rdbtnAnswer.setSelected(false);
 			rdbtnsAnswers.add(rdbtnAnswer);
 			add(rdbtnAnswer);
 		}
