@@ -36,7 +36,6 @@ class MazeTests {
 	
 	@Test
 	void testMoveRight() {
-		//test.moveRight();
 		test.move(MovementDirection.RIGHT);
 		assertTrue( test.getPlayerLocation().equals( new Location(1,0)) );
 		IndexOutOfBoundsException thrown = assertThrows( IndexOutOfBoundsException.class,
@@ -47,7 +46,6 @@ class MazeTests {
 	@Test
 	void testMoveLeft() {
 		test.setPlayerLocation( new Location(1,0) );
-		//test.moveLeft();
 		test.move(MovementDirection.LEFT);
 		assertTrue( test.getPlayerLocation().equals( new Location(0,0)) );
 		IndexOutOfBoundsException thrown = assertThrows( IndexOutOfBoundsException.class,
@@ -58,7 +56,6 @@ class MazeTests {
 	@Test
 	void testMoveUp() {
 		test.setPlayerLocation( new Location(0,1) );
-		//test.moveUp();
 		test.move(MovementDirection.UP);
 		assertTrue( test.getPlayerLocation().equals( new Location(0,0)) );
 		IndexOutOfBoundsException thrown = assertThrows( IndexOutOfBoundsException.class,
@@ -173,6 +170,17 @@ class MazeTests {
 		t.getMaze()[1][2].setRoomPermaLocked(true);
 		t.getMaze()[2][1].setRoomPermaLocked(true);
 		assertFalse( t.hasValidPathToEnd() );
+		
+		//testing with changed player location
+		test3.setPlayerLocation( new Location(3,4) );
+		assertTrue( test3.hasValidPathToEnd() );
+		test3.getMaze()[2][4].setRoomPermaLocked(true);
+		test3.getMaze()[4][4].setRoomPermaLocked(true);
+		test3.getMaze()[3][3].setRoomPermaLocked(true);
+		test3.getMaze()[3][5].setRoomPermaLocked(true);
+		assertFalse( test3.hasValidPathToEnd() );
+		test3.getMaze()[3][5].setRoomPermaLocked(false);
+		assertTrue( test3.hasValidPathToEnd() );
 		
 	}
 

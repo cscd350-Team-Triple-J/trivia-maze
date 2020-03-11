@@ -147,14 +147,18 @@ public class Maze {
 		return this.maze[x][y].getQuestion();
 	}
 	
-	
+	/**
+	 * Will check the solveMaze helper method to see if there is a valid path. Will reset both the
+	 * maze and mazeTrace explored fields once done
+	 * @return boolean that says if there is a path to the end that the user can reach
+	 */
 	public boolean hasValidPathToEnd() {
+		boolean goodPath = false;
 		if( solveMaze( this.playerLocation.getXCoord(), this.playerLocation.getYCoord() ) ) {
-			resetExplored();
-			return true;
+			goodPath = true;
 		}
 		resetExplored();
-		return false;
+		return goodPath;
 	}
 	
 	/**
@@ -163,9 +167,8 @@ public class Maze {
 	 * @param y y-coordinate to start search at
 	 * @return if there is a path or not
 	 */
-	public boolean solveMaze( int x, int y ) {
-		int xCoord = x;
-		int yCoord = y;
+	public boolean solveMaze( int xCoord, int yCoord ) {
+		
 		int maxX = this.maze.length;
 		int maxY = this.maze[0].length;
 		int endX = this.endLocation.getXCoord();
@@ -176,18 +179,19 @@ public class Maze {
 			return true;
 		}
 		
+		// how should I format this for 
 		if(xCoord >= 0 && yCoord >= 0 && xCoord < maxX && yCoord < maxY && !this.maze[xCoord][yCoord].isExplored() && !this.maze[xCoord][yCoord].isRoomPermaLocked() && !this.mazeTrace[xCoord][yCoord].isExplored() ) {
 			this.mazeTrace[xCoord][yCoord].setExplore(true);
-			if( solveMaze(x+1,y) ) {
+			if( solveMaze(xCoord+1,yCoord) ) {
 				return true;
 			}
-			if( solveMaze(x-1,y) ) {
+			if( solveMaze(xCoord-1,yCoord) ) {
 				return true;
 			}
-			if( solveMaze(x,y+1) ) {
+			if( solveMaze(xCoord,yCoord+1) ) {
 				return true;
 			}
-			if( solveMaze(x,y-1) ) {
+			if( solveMaze(xCoord,yCoord-1) ) {
 				return true;
 			}
 			this.mazeTrace[xCoord][yCoord].setExplore(false);
@@ -345,6 +349,11 @@ public class Maze {
 		return notOutOfBounds;
 	}
 	
+	/**
+	 * Helper method that will deep copy a maze
+	 * @param room array that will be copied
+	 * @return room array that will hold the copy
+	 */
 	private Room[][] copyMaze( Room[][] maze ){
 		Room[][] copy = new Room[maze.length][maze[0].length];
 		for( int i = 0; i < maze.length; i++ ) {
@@ -355,12 +364,4 @@ public class Maze {
 		return copy;
 	}
 	
-	private void clearTrace( Room[][] trace ){
-		for( int i = 0; i < this.mazeTrace.length; i++ ) {
-			for( int j = 0; j < this.mazeTrace[0].length; j++ ) {
-				this.maze[i][j].setExplore(false);
-				this.mazeTrace[i][j].setExplore(false);
-			}
-		}
-	}
 }
