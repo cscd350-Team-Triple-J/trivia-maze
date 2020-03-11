@@ -149,12 +149,12 @@ public class Maze {
 	
 	/**
 	 * Will check the solveMaze helper method to see if there is a valid path. Will reset both the
-	 * maze and mazeTrace explored fields once done
+	 * maze and mazeTrace explored fields once done. Will search for path from current Player Location
 	 * @return boolean that says if there is a path to the end that the user can reach
 	 */
 	public boolean hasValidPathToEnd() {
 		boolean goodPath = false;
-		if( solveMaze( this.playerLocation.getXCoord(), this.playerLocation.getYCoord() ) ) {
+		if( traverseMaze( this.playerLocation.getXCoord(), this.playerLocation.getYCoord() ) ) {
 			goodPath = true;
 		}
 		resetExplored();
@@ -167,10 +167,11 @@ public class Maze {
 	 * @param y y-coordinate to start search at
 	 * @return if there is a path or not
 	 */
-	public boolean solveMaze( int xCoord, int yCoord ) {
+	public boolean traverseMaze( int xCoord, int yCoord ) {
 		
 		int maxX = this.maze.length;
 		int maxY = this.maze[0].length;
+		
 		int endX = this.endLocation.getXCoord();
 		int endY = this.endLocation.getYCoord();
 		
@@ -179,19 +180,19 @@ public class Maze {
 			return true;
 		}
 		
-		// how should I format this for 
+		// how should I format this 
 		if(xCoord >= 0 && yCoord >= 0 && xCoord < maxX && yCoord < maxY && !this.maze[xCoord][yCoord].isExplored() && !this.maze[xCoord][yCoord].isRoomPermaLocked() && !this.mazeTrace[xCoord][yCoord].isExplored() ) {
 			this.mazeTrace[xCoord][yCoord].setExplore(true);
-			if( solveMaze(xCoord+1,yCoord) ) {
+			if( traverseMaze(xCoord,yCoord - 1) ) {
 				return true;
 			}
-			if( solveMaze(xCoord-1,yCoord) ) {
+			if( traverseMaze(xCoord,yCoord + 1) ) {
 				return true;
 			}
-			if( solveMaze(xCoord,yCoord+1) ) {
+			if( traverseMaze(xCoord - 1,yCoord) ) {
 				return true;
 			}
-			if( solveMaze(xCoord,yCoord-1) ) {
+			if( traverseMaze(xCoord + 1,yCoord) ) {
 				return true;
 			}
 			this.mazeTrace[xCoord][yCoord].setExplore(false);
