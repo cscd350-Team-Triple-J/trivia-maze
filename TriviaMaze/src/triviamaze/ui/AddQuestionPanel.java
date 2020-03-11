@@ -212,7 +212,7 @@ public class AddQuestionPanel extends JPanel {
 		String commentRight = txtCommentRight.getText();
 		
 		switch ((String)comboBox.getSelectedItem()) {
-		case "Multiple Choice": //true false
+		case "Multiple Choice":
 			type = "MC";
 			correctAnswer = getMultipleChoiceCorrectAnswer();
 			String options = getMultipleChoiceAnswers();
