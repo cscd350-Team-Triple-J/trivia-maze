@@ -9,22 +9,11 @@ public class MultipleChoiceQuestion extends Question {
 	public MultipleChoiceQuestion(String type, String question, String correctAnswer, String commentWrong,
 			String commentRight, String options) {
 		super(type, question, correctAnswer, commentWrong, commentRight);
-		this.options = convertStringToArray(options);
+		this.options = super.convertStringToArray(options);
 	}
 
 	public String[] getOptions() {
 		return options;
-	}
-
-	private String[] convertStringToArray(String string) {
-		Scanner scanner = new Scanner(string);
-		scanner.useDelimiter(",");
-		int count = scanner.nextInt();
-		String[] array = new String[count];
-		for (int i = 0; i < count; i++) {
-			array[i] = scanner.next();
-		}
-		return array;
 	}
 
 	@Override
