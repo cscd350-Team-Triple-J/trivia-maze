@@ -41,7 +41,11 @@ public class AddQuestionPanel extends JPanel {
 	private JRadioButton[] correctTrueFalseAnswer;
 	private JLabel lblCorrectAnswer;
 
+	private JButton shortAnswerAddCorrectAnswer;
+	private LinkedList<String> shortAnswerAnswers;
+
 	public AddQuestionPanel() {
+		shortAnswerAnswers = new LinkedList<String>();
 		setLayout(null);
 
 		saver = new QuestionSaver("jdbc:sqlite:Trivia Questions.db");
@@ -181,6 +185,12 @@ public class AddQuestionPanel extends JPanel {
 		add(txtShortAnswer);
 		txtShortAnswer.setColumns(10);
 
+		JButton btnNewButton = new JButton("Add Possible Response");
+		btnNewButton.setBounds(218, 120, 121, 23);
+		add(btnNewButton);
+		btnNewButton.addActionListener(AddOptionShortAnswer);
+		shortAnswerAddCorrectAnswer = btnNewButton;
+
 		hideShortAnswerInput();
 	}
 
@@ -206,7 +216,7 @@ public class AddQuestionPanel extends JPanel {
 	private Question getQuestionFromInput() {
 		String type = "";
 		String question = txtQuestion.getText();
-		String correctAnswer = "";
+		String correctAnswer = null;
 		String commentWrong = txtCommentWrong.getText();
 		String commentRight = txtCommentRight.getText();
 
@@ -222,7 +232,7 @@ public class AddQuestionPanel extends JPanel {
 			break;
 		case "Short Answer":
 			type = "SA";
-			correctAnswer = getShortAnswerCorrectAnswer();
+			correctAnswer = getShortAnswerCorrectAnswers();
 			break;
 		default:
 		}
@@ -264,7 +274,7 @@ public class AddQuestionPanel extends JPanel {
 			}
 
 		}
-		return multipleChoiceAnswers[correctAnswerIndex].toString();
+		return "1," + multipleChoiceAnswers[correctAnswerIndex].toString();
 	}
 
 	private String getMultipleChoiceAnswers() {
@@ -298,22 +308,30 @@ public class AddQuestionPanel extends JPanel {
 	}
 
 	private String getTrueFalseCorrectAnswer() {
-		if (correctTrueFalseAnswer[0].isSelected())
-			return "T";
-		return "F";
+		String prefix = "1,";
+		if (correctTrueFalseAnswer[0].isSelected()) {
+			return prefix + "T";
+		}
+		return prefix + "F";
 	}
 
 	private void showShortAnswerInput() {
 		txtShortAnswer.setVisible(true);
+		shortAnswerAddCorrectAnswer.setVisible(true);
 	}
 
 	private void hideShortAnswerInput() {
 		txtShortAnswer.setVisible(false);
+		shortAnswerAddCorrectAnswer.setVisible(false);
 		txtShortAnswer.setText("");
 	}
 
-	private String getShortAnswerCorrectAnswer() {
-		return txtShortAnswer.getText();
+	private String getShortAnswerCorrectAnswers() {
+		String result = "" + shortAnswerAnswers.size();
+		for (String answer : shortAnswerAnswers) {
+			result += "," + answer;
+		}
+		return result;
 	}
 
 	ActionListener SaveQuestionButton = new ActionListener() {
@@ -332,6 +350,15 @@ public class AddQuestionPanel extends JPanel {
 			JComboBox cb = (JComboBox) e.getSource();
 			String questionType = (String) cb.getSelectedItem();
 			updateQuestionInput(questionType);
+		}
+	};
+
+	ActionListener AddOptionShortAnswer = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			shortAnswerAnswers.add(txtShortAnswer.getText());
+			txtShortAnswer.setText("");
 		}
 	};
 }
