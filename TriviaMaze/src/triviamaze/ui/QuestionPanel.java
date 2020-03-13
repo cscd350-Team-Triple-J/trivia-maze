@@ -111,7 +111,8 @@ public class QuestionPanel extends JPanel {
 		case ("MC"):
 			return Arrays.asList(correctAnswers).contains(getSelectedAnswer());
 		case ("SA"):
-			return Arrays.asList(correctAnswers).contains(txtShortAnswerInput.getText().toLowerCase().trim());
+			return Arrays.asList(correctAnswers)
+					.contains(txtShortAnswerInput.getText().toLowerCase().replaceAll(" ", ""));
 		}
 		return false;
 	}
