@@ -6,8 +6,7 @@ import questionDatabaseManagement.*;
  * Maze class that will hold a Room[][] that will represent a maze Will be used
  * in the GUI to provide functionality to the maze portion of the game
  * 
- * @author Jon
- *
+ * @author Jonathyn Komorita
  */
 public class Maze {
 

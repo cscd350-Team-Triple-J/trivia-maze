@@ -6,8 +6,7 @@ import questionDatabaseManagement.*;
  * Class to represent a room in the Maze Holds a question, location, and several
  * boolean fields for utility
  * 
- * @author Jon
- *
+ * @author Jonathyn Komorita
  */
 public class Room {
 
