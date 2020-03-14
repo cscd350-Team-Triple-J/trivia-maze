@@ -66,12 +66,7 @@ class MazeTests {
 		IndexOutOfBoundsException thrown = assertThrows(IndexOutOfBoundsException.class,
 				() -> test.move(MovementDirection.DOWN), "Moved out of the maze");
 	}
-
-	@Test
-	void testCheckSurroundingRooms() {
-		boolean[] arr = test.checkSurroundingRooms();
-	}
-
+	
 	@Test
 	void testRoomLock() {
 		for (int i = 0; i < test.getMaze().length; i++) {
@@ -111,7 +106,7 @@ class MazeTests {
 
 	@Test
 	void testCheckRoom() {
-		boolean[] rooms = test.checkSurroundingRooms();
+		boolean[] rooms = test.checkSurroundingRooms( test.getMaze() );
 		assertFalse(rooms[0]);
 		assertTrue(rooms[1]);
 		assertFalse(rooms[2]);
@@ -119,7 +114,7 @@ class MazeTests {
 
 		test2.move(MovementDirection.RIGHT);
 		test2.move(MovementDirection.DOWN);
-		rooms = test2.checkSurroundingRooms();
+		rooms = test2.checkSurroundingRooms( test2.getMaze() );
 		assertTrue(rooms[0]);
 		assertTrue(rooms[1]);
 		assertTrue(rooms[2]);
@@ -160,6 +155,44 @@ class MazeTests {
 		test3.getMaze()[3][5].setRoomPermaLocked(false);
 		assertTrue(test3.hasValidPathToEnd());
 
+	}
+	
+	@Test
+	void testIsPlayerAtEnd() {
+		Location playerAtEnd = test.getEndLocation();
+		Location playerAtStart = test.getStartLocation();
+		Location playerAtRandom = new Location(1,0);
+		
+		test.setPlayerLocation(playerAtEnd);
+		assertTrue( test.isPlayerAtExit() );
+		test.setPlayerLocation(playerAtStart);
+		assertFalse( test.isPlayerAtExit() );
+		test.setPlayerLocation(playerAtRandom);
+		assertFalse( test.isPlayerAtExit() );
+	}
+	
+	@Test
+	void testGetAdjacentRoomLocation() {
+		Location right = test2.getAdjacentRoomLocation(MovementDirection.RIGHT);
+		Location down = test2.getAdjacentRoomLocation(MovementDirection.DOWN);
+		Location left = test2.getAdjacentRoomLocation(MovementDirection.LEFT);
+		Location up = test2.getAdjacentRoomLocation(MovementDirection.UP);
+		
+		assertTrue( right.equals(new Location(1,0) ) );
+		assertTrue( down.equals( new Location(0,1) ) );
+		
+		test2.setPlayerLocation( new Location(2,2) );
+		right = test2.getAdjacentRoomLocation(MovementDirection.RIGHT);
+		down = test2.getAdjacentRoomLocation(MovementDirection.DOWN);
+		left = test2.getAdjacentRoomLocation(MovementDirection.LEFT);
+		up = test2.getAdjacentRoomLocation(MovementDirection.UP);
+		
+		assertTrue( right.equals( new Location(3,2) ) );
+		assertTrue( down.equals( new Location(2,3) ) );
+		assertTrue( left.equals( new Location(1,2) ) );
+		assertTrue( up.equals( new Location(2,1) ) );
+		
+		
 	}
 
 }

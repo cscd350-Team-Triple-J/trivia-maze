@@ -15,7 +15,6 @@ public class Room {
 	private boolean isRoomPermaLocked;
 	private boolean isExplored;
 	private Location location;
-	private Question question;
 	
 	/**
 	 * Room constructor that holds a question and two boolean values. Room will be
@@ -26,7 +25,7 @@ public class Room {
 	 */
 	public Room(Location location) {
 		this.location = location;
-		isRoomLocked = false;
+		isRoomLocked = true;
 		isRoomPermaLocked = false;
 		isExplored = false;
 	}
@@ -46,8 +45,8 @@ public class Room {
 	}
 
 	/**
-	 * @param isRoomPermaLocked boolean value that will set the room as permanently
-	 *                          locked
+	 * @param isRoomPermaLocked boolean value that will set the room as 
+	 * 		  permanently locked
 	 */
 	public void setRoomPermaLocked(boolean isRoomPermaLocked) {
 		this.isRoomPermaLocked = isRoomPermaLocked;
