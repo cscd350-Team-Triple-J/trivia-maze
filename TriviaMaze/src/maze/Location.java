@@ -1,5 +1,11 @@
 package maze;
 
+/**
+ * A class that will represent the location in the maze. It will hold two integers
+ * that will represent the x and y coordinates in the maze
+ * 
+ * @author Jonathyn Komorita
+ */
 public class Location {
 	
 	private int xCoord;
@@ -24,18 +30,25 @@ public class Location {
 		this.yCoord = loc.getYCoord();
 	}
 	
+	/**
+	 * Getter for the x coordinate field
+	 * @return int representing x coordinate
+	 */
 	public int getXCoord() {
 		return this.xCoord;
 	}
 	
+	/**
+	 * Getter for the y coordinate field
+	 * @return int representing y coordinate
+	 */
 	public int getYCoord() {
 		return this.yCoord;
 	}
 	
-	public Location getCurrentLocation() {
-		return new Location( this.xCoord, this.yCoord );
-	}
-	
+	/**
+	 * Will check if locations are the same based on their x and y coordinates 
+	 */
 	@Override
 	public boolean equals( Object o ) {
 		boolean isSame = false;
