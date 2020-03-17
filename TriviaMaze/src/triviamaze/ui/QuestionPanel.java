@@ -20,7 +20,7 @@ public class QuestionPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	String correctAnswer;
+	String[] correctAnswers;
 
 	String correctAnswerMessage;
 
@@ -53,7 +53,7 @@ public class QuestionPanel extends JPanel {
 			cleanUpShortAnswerTextbox();
 
 		txtpnQuestionText.setText(q.getQuestion());
-		correctAnswer = q.getCorrectAnswer();
+		correctAnswers = q.getCorrectAnswers();
 		questionType = q.getType();
 
 		correctAnswerMessage = q.getCommentRight();
@@ -106,12 +106,13 @@ public class QuestionPanel extends JPanel {
 	public boolean isAnswerCorrect() {
 		switch (questionType) {
 		case ("TF"):
-			return (getSelectedAnswer().equals("True") && correctAnswer.equals("T"))
-					|| (getSelectedAnswer().equals("False") && correctAnswer.equals("F"));
+			return (getSelectedAnswer().equals("True") && Arrays.asList(correctAnswers).contains("T"))
+					|| (getSelectedAnswer().equals("False") && Arrays.asList(correctAnswers).contains("F"));
 		case ("MC"):
-			return correctAnswer.equals(getSelectedAnswer());
+			return Arrays.asList(correctAnswers).contains(getSelectedAnswer());
 		case ("SA"):
-			return correctAnswer.toLowerCase().trim().equals(txtShortAnswerInput.getText().toLowerCase().trim());
+			return Arrays.asList(correctAnswers)
+					.contains(txtShortAnswerInput.getText().toLowerCase().replaceAll(" ", ""));
 		}
 		return false;
 	}

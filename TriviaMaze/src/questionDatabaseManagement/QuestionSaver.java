@@ -15,7 +15,7 @@ public class QuestionSaver {
 		int ID = getNewID();
 		String type = newQuestion.getType();
 		String question = newQuestion.getQuestion();
-		String correctAnswer = newQuestion.getCorrectAnswer();
+		String correctAnswers = convertArrayToString(newQuestion.getCorrectAnswers());
 		String commentWrong = newQuestion.getCommentWrong();
 		String commentRight = newQuestion.getCommentRight();
 		String options = "";
@@ -29,7 +29,7 @@ public class QuestionSaver {
 			Statement s;
 			s = con.createStatement();
 			String sql = "INSERT INTO Questions (ID,Type,Question,CorrectAnswer) VALUES (" + ID + ",'" + type + "','"
-					+ question + "','" + correctAnswer + "');";
+					+ question + "','" + correctAnswers + "');";
 			s.execute(sql);
 			sql = "INSERT INTO QuestionComments (ID,CommentWrong,CommentCorrect) VALUES (" + ID + ",'" + commentWrong
 					+ "','" + commentRight + "');";
