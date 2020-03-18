@@ -50,15 +50,10 @@ public class MainMenuPanel extends JFrame {
 		lblGameTitle.setFont(new Font("Comic Sans MS", Font.PLAIN, 40));
 		lblGameTitle.setBounds(187, 10, 225, 40);
 		contentPane.add(lblGameTitle);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(247, 200, 89, 23);
-		contentPane.add(btnNewButton);
 			
 		btnPlayGame.addActionListener(PlayGameButton);
 		btnLoadGame.addActionListener(LoadGameButton);
 		btnAddQuestion.addActionListener(AdminSettingsButton);
-		btnNewButton.addActionListener(AdminSettingsButton);
 	}
 	
 	ActionListener PlayGameButton = new ActionListener() {
