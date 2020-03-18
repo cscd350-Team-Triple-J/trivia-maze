@@ -1,4 +1,4 @@
-package triviamaze.ui;
+package ui;
 
 import javax.swing.JPanel;
 

@@ -1,4 +1,4 @@
-package triviamaze.ui;
+package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,7 +34,7 @@ public class MainMenuPanel extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton btnAddQuestion = new JButton("Admin Settings");
-		btnAddQuestion.setBounds(392, 300, 168, 50);
+		btnAddQuestion.setBounds(454, 50, 120, 300);
 		contentPane.add(btnAddQuestion);
 		
 		JButton btnPlayGame = new JButton("New Game");
@@ -50,10 +50,15 @@ public class MainMenuPanel extends JFrame {
 		lblGameTitle.setFont(new Font("Comic Sans MS", Font.PLAIN, 40));
 		lblGameTitle.setBounds(187, 10, 225, 40);
 		contentPane.add(lblGameTitle);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setBounds(247, 200, 89, 23);
+		contentPane.add(btnNewButton);
 			
 		btnPlayGame.addActionListener(PlayGameButton);
 		btnLoadGame.addActionListener(LoadGameButton);
 		btnAddQuestion.addActionListener(AdminSettingsButton);
+		btnNewButton.addActionListener(AdminSettingsButton);
 	}
 	
 	ActionListener PlayGameButton = new ActionListener() {
@@ -76,11 +81,10 @@ public class MainMenuPanel extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			setContentPane(new AdminSettingsPanel());
+			setContentPane(new AddQuestionPanel());
+
 		}
 	};
-	
-
 }
 
 

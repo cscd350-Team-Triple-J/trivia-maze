@@ -1,4 +1,4 @@
-package triviamaze.ui;
+package ui;
 
 import questionDatabaseManagement.MultipleChoiceQuestion;
 import questionDatabaseManagement.Question;

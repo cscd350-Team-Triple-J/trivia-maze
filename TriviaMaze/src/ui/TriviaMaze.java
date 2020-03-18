@@ -1,4 +1,4 @@
-package triviamaze.ui;
+package ui;
 
 import java.awt.EventQueue;
 
