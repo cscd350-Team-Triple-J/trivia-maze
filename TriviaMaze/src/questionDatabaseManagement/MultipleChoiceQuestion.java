@@ -1,7 +1,6 @@
 package questionDatabaseManagement;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class MultipleChoiceQuestion extends Question {
 	private String[] options;

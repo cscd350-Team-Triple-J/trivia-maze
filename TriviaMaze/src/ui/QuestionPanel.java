@@ -4,8 +4,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextPane;
 
-import javax.swing.JButton;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 
