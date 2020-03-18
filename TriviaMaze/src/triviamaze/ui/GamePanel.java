@@ -105,10 +105,9 @@ public class GamePanel extends JPanel {
 	}
 
 	private void endGameOptions(int selectedOption) {
-		if (selectedOption == 0) // yes
+		if (selectedOption == 0)
 			initializeGame();
-		else if (selectedOption == 1)// no
-			// return to main menu
+		else if (selectedOption == 1)
 			return;
 		else
 			return;

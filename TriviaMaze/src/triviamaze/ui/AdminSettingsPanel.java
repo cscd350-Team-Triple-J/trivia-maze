@@ -13,9 +13,6 @@ public class AdminSettingsPanel extends JPanel {
 		adminSettingsCard.setBounds(0, 0, 600, 450);
 		add(adminSettingsCard);
 		
-		JPanel newAdminPanel = new NewAdministratorPanel();
-		adminSettingsCard.addTab("New Admin", null, newAdminPanel, null);
-		
 		JPanel newQuestionPanel = new AddQuestionPanel();
 		adminSettingsCard.addTab("New Question", null, newQuestionPanel, null);
 	}

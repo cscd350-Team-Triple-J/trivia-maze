@@ -42,7 +42,7 @@ class LocationTests {
 	
 	@Test
 	void testGetCurrentLocation() {
-		Location t = test2.getCurrentLocation();
+		Location t = test2;
 		assertEquals( 2, t.getXCoord() );
 		assertEquals( 3, t.getYCoord() );
 	}
