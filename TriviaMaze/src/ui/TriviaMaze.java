@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 public class TriviaMaze {
 
-	private static JFrame frame;
+	private JFrame frame;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -30,9 +30,5 @@ public class TriviaMaze {
 		frame.setTitle("Trivia Maze");
 		frame.setBounds(100, 100, 600, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-	
-	public static void setFrameToMainMenu() {
-		frame = new MainMenuPanel();
 	}
 }
